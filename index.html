@@ -1,0 +1,71 @@
+<body>
+
+  <div class="layout">
+
+    <!-- Colonne gauche : carte -->
+    <div class="main">
+      <h2>Carte</h2>
+      <div id="chart2"></div>
+    </div>
+
+    <!-- Colonne droite : sliders -->
+    <div class="sidebar">
+      <h2>Filtres Altitude & Pente</h2>
+
+      <div class="controls">
+        <label>Altitude min : <span id="altMinValue">0</span> m</label>
+        <input type="range" id="altMin" min="0" max="3000" step="100" value="0">
+
+        <label>Altitude max : <span id="altMaxValue">3000</span> m</label>
+        <input type="range" id="altMax" min="0" max="3000" step="100" value="3000">
+
+        <label>Pente min : <span id="penteMinValue">0</span> %</label>
+        <input type="range" id="penteMin" min="0" max="100" step="1" value="0">
+
+        <label>Pente max : <span id="penteMaxValue">100</span> %</label>
+        <input type="range" id="penteMax" min="0" max="100" step="1" value="100">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <!-- Ton script -->
+  <script src="script.js"></script>
+  <style>
+  body {
+    font-family: sans-serif;
+    margin: 20px;
+  }
+
+  /* Conteneur principal : carte à gauche, sliders à droite */
+  .layout {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+  }
+
+  /* Colonne droite : sliders */
+  .sidebar {
+    width: 250px;
+    flex-shrink: 0;
+  }
+
+  /* Colonne gauche : carte */
+  .main {
+    flex-grow: 1;
+  }
+
+  #chart2 {
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .controls label {
+    display: block;
+    margin-top: 10px;
+  }
+</style>
+</body>
