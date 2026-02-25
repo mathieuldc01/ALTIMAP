@@ -1,71 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Cartes interactives des départements</title>
+
+<!-- D3 + noUiSlider -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
 <body>
 
-  <div class="layout">
+<h1>Cartes interactives des départements</h1>
 
-    <!-- Colonne gauche : carte -->
-    <div class="main">
-      <h2>Carte</h2>
-      <div id="chart2"></div>
+<div class="charts-row">
+
+    <!-- Carte Altitude -->
+    <div id="chart-altitude" class="chart-container">
+        <h1>Répartition des Parcelles en fonction de l'altitude</h1>
+
+        <div class="chart-content">
+            <div id="chart-alt" class="chart-graph"></div>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-wrapper">
+                <div id="min-alt" class="slider-bound"></div>
+                <div id="slider-alt" class="slider-inner"></div>
+                <div id="max-alt" class="slider-bound"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- Colonne droite : sliders -->
-    <div class="sidebar">
-      <h2>Filtres Altitude & Pente</h2>
+    <!-- Carte Pente -->
+    <div id="chart-pente" class="chart-container">
+        
+        <h1>Répartition des Parcelles en fonction de la Pente</h1>
+        <div class="chart-content">
 
-      <div class="controls">
-        <label>Altitude min : <span id="altMinValue">0</span> m</label>
-        <input type="range" id="altMin" min="0" max="3000" step="100" value="0">
+            <div id="chart-pente-map" class="chart-graph"></div>
+        </div>
 
-        <label>Altitude max : <span id="altMaxValue">3000</span> m</label>
-        <input type="range" id="altMax" min="0" max="3000" step="100" value="3000">
-
-        <label>Pente min : <span id="penteMinValue">0</span> %</label>
-        <input type="range" id="penteMin" min="0" max="100" step="1" value="0">
-
-        <label>Pente max : <span id="penteMaxValue">100</span> %</label>
-        <input type="range" id="penteMax" min="0" max="100" step="1" value="100">
-      </div>
+        <div class="slider-container">
+            <div class="slider-wrapper">
+                <div id="min-pente" class="slider-bound"></div>
+                <div id="slider-pente" class="slider-inner"></div>
+                <div id="max-pente" class="slider-bound"></div>
+            </div>
+        </div>
     </div>
 
-  </div>
+</div>
 
-  <!-- D3 -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-
-  <!-- Ton script -->
-  <script src="script.js"></script>
-  <style>
-  body {
-    font-family: sans-serif;
-    margin: 20px;
-  }
-
-  /* Conteneur principal : carte à gauche, sliders à droite */
-  .layout {
-    display: flex;
-    gap: 30px;
-    align-items: flex-start;
-  }
-
-  /* Colonne droite : sliders */
-  .sidebar {
-    width: 250px;
-    flex-shrink: 0;
-  }
-
-  /* Colonne gauche : carte */
-  .main {
-    flex-grow: 1;
-  }
-
-  #chart2 {
-    width: 100%;
-    max-width: 1000px;
-  }
-
-  .controls label {
-    display: block;
-    margin-top: 10px;
-  }
-</style>
+<script src="script.js"></script>
 </body>
+</html>

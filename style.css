@@ -1,0 +1,91 @@
+/* Deux cartes côte à côte */
+.charts-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Chaque carte */
+.chart-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Carte + légende */
+.chart-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center; /* centre verticalement */
+}
+
+/* Carte */
+.chart-graph {
+    width: 80%;
+}
+
+/* Légende */
+.legend {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 10px;
+    font-size: 13px;
+
+    justify-content: center; /* centre le contenu interne */
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-color {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #333;
+}
+
+/* ---------------- SLIDER ---------------- */
+
+.slider-container {
+    width: 70%;
+    margin: 15px auto 5px auto; /* centré */
+}
+
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.slider-bound {
+    width: 45px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.slider-inner {
+    flex: 1;
+}
+
+/* noUiSlider custom */
+.noUi-target {
+    height: 6px !important;
+}
+
+.noUi-handle {
+    width: 14px !important;
+    height: 14px !important;
+    top: -4px !important;
+}
+
+.chart-container h1 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
