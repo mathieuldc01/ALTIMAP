@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Cartes interactives des départements</title>
 
-<!-- D3 + noUiSlider -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet">
@@ -16,16 +15,16 @@
 
 <h1>Cartes interactives des départements</h1>
 
+<div class="accordion-btn">Légende des cultures</div>
+<div class="accordion-panel"></div>
+
 <div class="charts-row">
 
-    <!-- Carte Altitude -->
-    <div id="chart-altitude" class="chart-container">
-        <h1>Répartition des Parcelles en fonction de l'altitude</h1>
-
+    <div class="chart-container">
+        <h2>Altitude</h2>
         <div class="chart-content">
             <div id="chart-alt" class="chart-graph"></div>
         </div>
-
         <div class="slider-container">
             <div class="slider-wrapper">
                 <div id="min-alt" class="slider-bound"></div>
@@ -35,15 +34,11 @@
         </div>
     </div>
 
-    <!-- Carte Pente -->
-    <div id="chart-pente" class="chart-container">
-        
-        <h1>Répartition des Parcelles en fonction de la Pente</h1>
+    <div class="chart-container">
+        <h2>Pente</h2>
         <div class="chart-content">
-
             <div id="chart-pente-map" class="chart-graph"></div>
         </div>
-
         <div class="slider-container">
             <div class="slider-wrapper">
                 <div id="min-pente" class="slider-bound"></div>
