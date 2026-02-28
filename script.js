@@ -1,3 +1,66 @@
+let selectedParcelle = null;
+
+const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip-culture")
+    .style("position", "absolute")
+    .style("padding", "6px 10px")
+    .style("background", "white")
+    .style("border", "1px solid #333")
+    .style("border-radius", "4px")
+    .style("font-size", "12px")
+    .style("pointer-events", "none")
+    .style("opacity", 0);
+
+
+
+
+
+
+function updateSelection() {
+
+    d3.selectAll(".parcelle-point")
+        .attr("stroke", d => d.id === selectedParcelle ? "red" : "#222")
+        .attr("stroke-width", d => d.id === selectedParcelle ? 2 : 0.3);
+
+    d3.selectAll(".point")
+        .attr("stroke", d => d.id === selectedParcelle ? "red" : "none")
+        .attr("stroke-width", d => d.id === selectedParcelle ? 2 : 0);
+}
+
+function reinitialise(){
+    d3.selectAll(".parcelle-point")
+        .attr("stroke", "#222")
+        .attr("stroke-width", 0.3);
+
+    d3.selectAll(".graphe-point")
+        .attr("stroke", "none")
+        .attr("stroke-width", 0.3);
+}
+
+function highlight(id) {
+
+
+    // Highlight parcelle
+    d3.select(`#parcelle-${id}-pente`)
+        .attr("stroke", "#0066ff")
+        .attr("stroke-width", 0.4);
+
+    d3.select(`#parcelle-${id}-altitude`)
+        .attr("stroke", "#0066ff")
+        .attr("stroke-width", 0.4);
+
+
+    // Highlight graphe
+    d3.select(`#graphe-${id}`)
+        .attr("stroke", "black")
+        .attr("stroke-width", 2);
+    
+    d3.select(`#parcelle-${id}-pente`).raise();
+    d3.select(`#parcelle-${id}-altitude`).raise();
+    d3.select(`#graphe-${id}`).raise();
+}
+
 function createDepartmentGraph(
     depGeo,
     dataMatrix,
@@ -62,6 +125,9 @@ function createDepartmentGraph(
 
     sliderDiv.noUiSlider.on("update", values => {
         const [minS, maxS] = values.map(Number);
+        document.getElementById(type === "altitude"?"min-alt":"min-pente").textContent = Math.round(values[0]);
+        document.getElementById(type === "altitude"?"max-alt":"max-pente").textContent = Math.round(values[1]);
+
 
         const stats = updateAllDepartments(dataMatrix, minS, maxS, type, mode);
         const { scale, min, max, colorByDept } = createColorScale(stats, type);
@@ -112,6 +178,7 @@ function createDepartmentGraph(
         const deptCode = currentDept.properties.code;
         const parcellesDept = parcellesGeo[deptCode] || [];
 
+
         const [borneMin, borneMax] = sliderDiv.noUiSlider.get().map(Number);
 
         const parcellesFiltered = parcellesDept.filter(p => {
@@ -120,58 +187,337 @@ function createDepartmentGraph(
                 : p["pente_moyenne"];
             return val >= borneMin && val <= borneMax;
         });
-
+        const r = d3.scaleLog()
+        .domain(d3.extent(parcellesFiltered, d => Math.max(+d.surface_totale || 0, 1)))
+        .range([1, 3]);
         const colorScale = d3.scaleOrdinal()
             .domain(Object.keys(cultureColors))
             .range(Object.values(cultureColors));
+        gParcelles.append("rect")
+        .attr("class","graph-background")
+        .attr("x",0)
+        .attr("y",0)
+        .attr("width",width)
+        .attr("height",height)
+        .attr("fill","transparent")
 
         const points = gParcelles.selectAll(".parcelle-point")
-            .data(parcellesFiltered, d => d.id || d.geometry.coordinates);
+    .data(parcellesFiltered, d => d.id || d.geometry.coordinates)
+    .join(
+        enter => enter.append("circle")
+            .on("click", (event, d) => {
+                event.stopPropagation();
+                selectedParcelle = d.id;
+                updateSelection();
+                reinitialise();
+                highlight(d.id);
+            })
+            .attr("class", "parcelle-point")
+            .attr("r", d => r(d.surface_totale))
+            .attr("fill", d => colorScale(d.CODE_CULTU))
+            .attr("id", d => `parcelle-${d.id}-${type}`)
+            .attr("stroke", "#222")
+            .attr("stroke-width", 0.3)
+            .attr("opacity", 0.9)
+            .attr("cx", d => projection([
+                d.geometry.coordinates[0][0][0],
+                d.geometry.coordinates[0][0][1]
+            ])[0])
+            .attr("cy", d => projection([
+                d.geometry.coordinates[0][0][0],
+                d.geometry.coordinates[0][0][1]
+            ])[1])
+            .on("mouseover", (event, d) => {
+                const code = d.CODE_CULTU;
+                const label = cultureLabels[code] || "Inconnu";
 
-        points.join(
-            enter => enter.append("circle")
-                .attr("class", "parcelle-point")
-                .attr("r", 3)
-                .attr("fill", d => colorScale(d.CODE_CULTU))
-                .attr("stroke", "#222")
-                .attr("stroke-width", 0.3)
-                .attr("opacity", 0.9)
-                .attr("cx", d => projection([
-                    d.geometry.coordinates[0][0][0],
-                    d.geometry.coordinates[0][0][1]
-                ])[0])
-                .attr("cy", d => projection([
-                    d.geometry.coordinates[0][0][0],
-                    d.geometry.coordinates[0][0][1]
-                ])[1]),
-            update => update,
-            exit => exit.remove()
-        );
+                tooltip.style("opacity", 1)
+                    .html(`<strong>${code}</strong><br>${label}`);
+            })
+            .on("mousemove", (event) => {
+                tooltip
+                    .style("left", (event.pageX + 12) + "px")
+                    .style("top", (event.pageY + 12) + "px");
+            })
+            .on("mouseout", () => {
+                tooltip.style("opacity", 0);
+            })
+    );
+
+       
+        
+
+
+const lasso = d3.lasso()
+  .items(points)
+  .area(gParcelles)
+  .on("start", () => {
+    reinitialise();
+    points.classed("lasso-selected", false)
+          .classed("lasso-not-selected", false);
+
+  })
+  .on("end", () => {
+
+    const selected = points.filter(function () {
+      return d3.select(this).classed("lasso-selected");
+    });
+
+    points.classed("lasso-not-selected", true);
+    selected.classed("lasso-not-selected", false);
+
+    selected.each(function (d) {
+      highlight(d.id);
+    });
+
+  });
+
+gParcelles.call(lasso);
 
         createCultureLegend(svg, width);
     }
 
-    function clicked(event, d) {
-        event.stopPropagation();
-        currentDept = d;
-        updateParcelles();
+function drawScatterPlot(parcelles) {
 
-        const [[x0, y0], [x1, y1]] = path.bounds(d);
+    d3.select("#graph-container").selectAll("*").remove();
 
+    if (!parcelles || parcelles.length === 0) return;
+
+    const margin = { top: 20, right: 150, bottom: 40, left: 50 };
+    const width = 600 - margin.left - margin.right;
+    const height = 300 - margin.top - margin.bottom;
+
+    const svgGraph = d3.select("#graph-container")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`)
+        .attr("stroke", "none")
+        .attr("stroke-width", 0)
+    // --- échelle taille ---
+    const r = d3.scaleLog()
+    .domain(d3.extent(parcelles, d => Math.max(+d.surface_totale || 0, 0.1)))
+    .range([2, 12]);
+
+    svgGraph.style("pointer-events","all");
+    // --- échelles ---
+    const x = d3.scaleLinear()
+        .domain(d3.extent(parcelles, d => d.altitude_moyenne || 0))
+        .nice()
+        .range([0, width]);
+
+    const y = d3.scaleLinear()
+        .domain(d3.extent(parcelles, d => d.pente_moyenne || 0))
+        .nice()
+        .range([height, 0]);
+    
+    // --- axes ---
+    svgGraph.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(x));
+
+    svgGraph.append("g")
+        .call(d3.axisLeft(y));
+
+    svgGraph.append("rect")
+    .attr("class","graph-background")
+    .attr("x",0)
+    .attr("y",0)
+    .attr("width",width)
+    .attr("height",height)
+    .attr("fill","transparent")
+    // --- points ---
+    const graphepoint = svgGraph.selectAll("circle.point")
+        .data(parcelles)
+        .enter()
+        .append("circle")
+        .on("click", (event, d) => {
+    event.stopPropagation();
+    selectedParcelle = d.id;
+    console.log(selectedParcelle)
+    updateSelection();      // ton ancien code
+    reinitialise();
+    highlight(d.id);        // ajout
+})
+        .attr("class", "point")
+        .attr("cx", d => x(d.altitude_moyenne))
+        .attr("cy", d => y(d.pente_moyenne))
+        .attr("r", d => r(d.surface_totale))
+        .attr("fill", d => cultureColors[d.CODE_CULTU] ?? "#888")
+        .attr("opacity", 0.7)
+        .attr("id", d => `graphe-${d.id}`)
+        .on("mouseover", (event, d) => {
+            const code = d.CODE_CULTU;
+            const label = cultureLabels[code] || "Inconnu";
+
+            tooltip
+                .style("opacity", 1)
+                .html(`<strong>${code}</strong><br>${label}`);
+        })
+
+        .on("mousemove", (event) => {
+            tooltip
+                .style("left", (event.pageX + 12) + "px")
+                .style("top", (event.pageY + 12) + "px");
+        })
+
+        .on("mouseout", () => {
+            tooltip.style("opacity", 0);
+        });
+
+    // --- labels axes ---
+    svgGraph.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + 35)
+        .attr("text-anchor", "middle")
+        .text("Altitude moyenne");
+
+
+
+
+    svgGraph.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2)
+        .attr("y", -40)
+        .attr("text-anchor", "middle")
+        .text("Pente moyenne");
+
+// --- Lasso pour le graphe ---
+const lasso2 = d3.lasso()
+  
+  .items(graphepoint)   // tous les points du graphe
+  .area(svgGraph)       // zone de lasso = SVG du graphe
+  .on("start", () => {
+        
+      // réinitialiser uniquement le graphe
+      graphepoint.classed("lasso-selected", false)
+                   .classed("lasso-not-selected", false);
+      // si tu veux réinitialiser visuellement la carte, tu peux le faire ici, sinon laisse
+  })
+  
+  .on("end", () => {
+      // points sélectionnés dans le graphe
+      const selected = graphepoint.filter(function () {
+          return d3.select(this).classed("lasso-selected");
+      });
+
+      // optionnel : style des non sélectionnés
+      graphepoint.classed("lasso-not-selected", true);
+      selected.classed("lasso-not-selected", false);
+
+      // appliquer highlight à chaque point sélectionné
+      selected.each(function(d) {
+          highlight(d.id);
+      });
+  });
+
+// APPLIQUER LE LASSO UNE SEULE FOIS
+svgGraph.call(lasso2);
+
+    // --- légende tailles ---
+    const surfaces = parcelles
+    .map(d => Math.max(+d.surface_totale || 0, 0.1))
+    .sort((a, b) => a - b);
+    console.log(surfaces)
+    const minSurface = d3.min(surfaces);
+    const maxSurface = d3.max(surfaces);
+
+    const logScale = d3.scaleLog()
+        .domain([minSurface, maxSurface])
+        .range([0, 1]);
+
+    const sizeLegendValues = [
+        logScale.invert(0.2),
+        logScale.invert(0.4),
+        logScale.invert(0.6),
+        logScale.invert(0.8),
+        logScale.invert(1)
+];
+
+    const legendX = width + 40;
+    const legendY = 20;
+
+    const legend = svgGraph.append("g")
+        .attr("class", "size-legend")
+        .attr("transform", `translate(${legendX}, ${legendY})`);
+
+    legend.selectAll("circle")
+        .data(sizeLegendValues)
+        .enter()
+        .append("circle")
+        .attr("cy", (d, i) => i * 40)
+        .attr("r", d => r(d))
+        .attr("fill", "none")
+        .attr("stroke", "#555");
+
+    legend.selectAll("text")
+        .data(sizeLegendValues)
+        .enter()
+        .append("text")
+        .attr("x", 30)
+        .attr("y", (d, i) => i * 40 + 5)
+        .text(d => `${Math.round(d)} hectare`)
+        .style("font-size", "12px")
+        .style("fill", "#333");
+}
+
+
+function clicked(event, d) {
+    event.stopPropagation();
+    console.log(d)
+    // Si on clique sur le même département → dézoom + reset
+    if (currentDept && currentDept.properties.code === d.properties.code) {
+
+        currentDept = null;
+        d3.select("#graph-container").selectAll("*").remove();
+        // Supprimer les parcelles
+        gParcelles.selectAll(".parcelle-point").remove();
+
+        // Supprimer la légende
+        svg.selectAll(".legend-culture").remove();
+
+        // Cacher le tooltip
+        tooltip.style("opacity", 0);
+
+        // Dézoomer
         svg.transition()
             .duration(750)
             .call(
                 zoom.transform,
                 d3.zoomIdentity
-                    .translate(width / 2, height / 2)
-                    .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
-                    .translate(-(x0 + x1) / 2, -(y0 + y1) / 2)
             );
+
+        return;
     }
 
+    // Sinon comportement normal : zoom sur le département
+    currentDept = d;
+    updateParcelles();
+    // Récupérer les parcelles filtrées du département
+    const parcellesDept = parcellesGeo[d.properties.code] || [];
+    // Tracer le graphe
+    drawScatterPlot(parcellesDept);
+
+    const [[x0, y0], [x1, y1]] = path.bounds(d);
+
+    svg.transition()
+        .duration(750)
+        .call(
+            zoom.transform,
+            d3.zoomIdentity
+                .translate(width / 2, height / 2)
+                .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+                .translate(-(x0 + x1) / 2, -(y0 + y1) / 2)
+        );
+}
     svg.on("click", () => {
         currentDept = null;
         gParcelles.selectAll(".parcelle-point").remove();
+        removeCultureLegend(svg);
+         
+         tooltip.style("opacity", 0);
+
         svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
     });
 
@@ -234,6 +580,9 @@ function createCultureLegend(svg, width) {
         .attr("alignment-baseline", "middle")
         .style("font-size", "12px")
         .text(d => d[0]);
+}
+function removeCultureLegend(svg) {
+    svg.selectAll(".legend-culture").remove();
 }
 
 function createColorScale(stats, type="altitude") {
@@ -308,7 +657,6 @@ function updateAllDepartments(data, minSlider, maxSlider, type, mode = "surface"
 
     return result;
 }
-
 
 // ---------------------- Couleurs ----------------------
 
@@ -580,7 +928,12 @@ function buildBandeauRPG() {
     // Vider le panel pour repartir à neuf
     mainPanel.innerHTML = "";
     mainPanel.style.display = "none"; // masqué par défaut
+    const description = document.createElement("h2");
+    description.className = "description";
+    description.innerHTML=`Description rapide du projet"
+    <p>ici est la description<\p>`
 
+    mainPanel.appendChild(description);
     const mapping = buildCategorieMapping(cultureColors);
 
     for (const categorie in mapping) {
@@ -657,7 +1010,7 @@ Promise.all([
         "altitude",
         "surface",
         0,
-        3000
+        1800
     );
 
     createDepartmentGraph(
@@ -670,7 +1023,7 @@ Promise.all([
         "pente",
         "surface",
         0,
-        30
+        31
     );
 
     document.querySelectorAll(".accordion-btn").forEach(btn => {
