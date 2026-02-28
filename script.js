@@ -33,7 +33,9 @@ function reinitialise(){
         .attr("stroke", "#222")
         .attr("stroke-width", 0.3);
 
-    d3.selectAll(".graphe-point")
+
+
+    d3.selectAll("circle.point")
         .attr("stroke", "none")
         .attr("stroke-width", 0.3);
 }
@@ -258,7 +260,7 @@ const lasso = d3.lasso()
 
   })
   .on("end", () => {
-
+    reinitialise();
     const selected = points.filter(function () {
       return d3.select(this).classed("lasso-selected");
     });
@@ -389,7 +391,7 @@ const lasso2 = d3.lasso()
   .items(graphepoint)   // tous les points du graphe
   .area(svgGraph)       // zone de lasso = SVG du graphe
   .on("start", () => {
-        
+    reinitialise();
       // réinitialiser uniquement le graphe
       graphepoint.classed("lasso-selected", false)
                    .classed("lasso-not-selected", false);
@@ -397,6 +399,7 @@ const lasso2 = d3.lasso()
   })
   
   .on("end", () => {
+        reinitialise();
       // points sélectionnés dans le graphe
       const selected = graphepoint.filter(function () {
           return d3.select(this).classed("lasso-selected");
