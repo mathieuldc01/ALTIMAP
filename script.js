@@ -1,4 +1,8 @@
 let selectedParcelle = null;
+const allGraphs = [];
+const allDepartmentGraphs = [];
+const allslider=[];
+let Dept;
 
 const tooltip = d3.select("body")
     .append("div")
@@ -12,9 +16,152 @@ const tooltip = d3.select("body")
     .style("pointer-events", "none")
     .style("opacity", 0);
 
+function drawParcelles(graph, parcellesFiltered) {
+    const gParcelles = graph.gParcelles;
+    const projection = graph.projection;
+    const type = graph.type;
+    const svg = graph.svg;
+    const width = 600;
+    const height = 600;
 
+    if (!parcellesFiltered || parcellesFiltered.length === 0) {
+        gParcelles.selectAll(".parcelle-point").remove();
+        return;
+    }
 
+    const r = d3.scaleLog()
+        .domain(d3.extent(parcellesFiltered, d => Math.max(+d.surface_totale || 1)))
+        .range([1, 3]);
 
+    const colorScale = d3.scaleOrdinal()
+        .domain(Object.keys(cultureColors))
+        .range(Object.values(cultureColors));
+    console.log(height,width)
+    // ne créer le rectangle que s'il n'existe pas encore
+if (gParcelles.selectAll(".graph-background").empty()) {
+    console.log("ici")
+    gParcelles.append("rect")
+        .attr("class","graph-background")
+        .attr("x",0)
+        .attr("y",0)
+        .attr("width",width)
+        .attr("height",height)
+        .lower()
+        .attr("fill","transparent")
+        .on("click", function(event) {
+
+            event.stopPropagation();
+
+            // supprimer **tous les rectangles de fond**
+            d3.selectAll(".graph-background").remove();
+
+            // reset département
+            currentDept = null;
+
+            // relancer le click sur l'élément en dessous
+            const elementBelow = document.elementFromPoint(event.clientX, event.clientY);
+
+            if (elementBelow) {
+                elementBelow.dispatchEvent(
+                    new MouseEvent("click", {
+                        bubbles: true,
+                        clientX: event.clientX,
+                        clientY: event.clientY
+                    })
+                );
+            }
+        });
+}
+    
+    // mise à jour des cercles
+    const points = gParcelles.selectAll(".parcelle-point")
+        .data(parcellesFiltered, d => d.id || d.geometry.coordinates)
+        .join(
+            enter => enter.append("circle")
+                .attr("class", "parcelle-point")
+                .attr("stroke", "#222")
+                .attr("stroke-width", 0.3)
+                .attr("opacity", 0.9)
+                .attr("id", d => `parcelle-${d.id}-${type}`)
+                .on("click", (event, d) => {
+                    event.stopPropagation();
+                    selectedParcelle = d.id;
+                    updateSelection();
+                    reinitialise();
+                    highlight(d.id);
+                })
+                .on("mouseover", (event, d) => {
+                    const code = d.CODE_CULTU;
+                    const label = cultureLabels[code] || "Inconnu";
+                    tooltip.style("opacity", 1)
+                        .html(`<strong>${code}</strong><br>${label}`);
+                })
+                .on("mousemove", (event) => {
+                    tooltip
+                        .style("left", (event.pageX + 12) + "px")
+                        .style("top", (event.pageY + 12) + "px");
+                })
+                .on("mouseout", () => {
+                    tooltip.style("opacity", 0);
+                })
+        );
+
+    points
+        .attr("r", d => r(d.surface_totale))
+        .attr("fill", d => colorScale(d.CODE_CULTU))
+        .attr("cx", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[0])
+        .attr("cy", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[1]);
+
+    // lasso
+    const lasso = d3.lasso()
+        .items(points)
+        .area(gParcelles)
+        .on("start", () => {
+            reinitialise();
+            points.classed("lasso-selected", false)
+                  .classed("lasso-not-selected", false);
+        })
+        .on("end", () => {
+            reinitialise();
+            const selected = points.filter(function () {
+                return d3.select(this).classed("lasso-selected");
+            });
+            points.classed("lasso-not-selected", true);
+            selected.classed("lasso-not-selected", false);
+            selected.each(function(d) {
+                highlight(d.id);
+            });
+        });
+
+    gParcelles.call(lasso);
+
+    // légende des cultures
+    createCultureLegend(svg, width);
+}
+
+function updateParcelles(currentDept,parcellesGeo) {
+    if (!currentDept) {
+        d3.selectAll(".graph-background").remove();
+    return;
+    }
+
+    const deptCode = currentDept.properties.code;
+
+    allDepartmentGraphs.forEach(graph => {
+        const parcellesDept = parcellesGeo[deptCode] || [];
+        const sliderValues = graph.sliderId
+            ? document.getElementById(graph.sliderId).noUiSlider.get().map(Number)
+            : [0, Infinity];
+
+        // Chaque graphe peut avoir sa propre fonction de filtrage
+        
+        const parcellesFiltered = graph.filterFunc
+            ? parcellesDept.filter(p => graph.filterFunc(p, sliderValues))
+            : parcellesDept;
+
+        drawParcelles(graph, parcellesFiltered);
+    });
+}
 
 
 function updateSelection() {
@@ -87,14 +234,14 @@ function createDepartmentGraph(
         .append("svg")
         .attr("width", width)
         .attr("height", height);
-
+    allGraphs.push(svg);
     const projection = d3.geoMercator().fitSize([width, height], depGeo);
     const path = d3.geoPath().projection(projection);
 
     const g = svg.append("g");
     const gDeps = g.append("g");
     const gParcelles = g.append("g");
-
+    
     const stats = updateAllDepartments(dataMatrix, minVal, maxVal, type, mode);
     const { scale, min, max, colorByDept } = createColorScale(stats, type);
 
@@ -109,21 +256,26 @@ function createDepartmentGraph(
     createLegend(containerId, scale, min, max, mode);
 
     const zoom = d3.zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", (event) => {
-            g.attr("transform", event.transform);
+    .scaleExtent([1, 8])
+    .on("zoom", (event) => {
+
+        g.attr("transform", event.transform);
+
+        // appliquer aux autres graphes
+        allGraphs.forEach(otherSvg => {
+            if (otherSvg.node() !== svg.node()) {
+                otherSvg.select("g")
+                    .attr("transform", event.transform);
+            }
         });
+
+    });
 
     svg.call(zoom);
 
     const sliderDiv = document.getElementById(sliderId);
+    
 
-    noUiSlider.create(sliderDiv, {
-        start: [minVal, maxVal],
-        connect: true,
-        range: { min: minVal, max: maxVal },
-        step: type === "altitude" ? 100 : 1
-    });
 
     sliderDiv.noUiSlider.on("update", values => {
         const [minS, maxS] = values.map(Number);
@@ -138,9 +290,36 @@ function createDepartmentGraph(
             .attr("fill", d => colorByDept[d.properties.code]);
 
         createLegend(containerId, scale, min, max, mode);
-
-        updateParcelles();
+        d3.selectAll(".graph-background").remove();
+        updateParcelles(Dept, parcellesGeo);
     });
+    
+    if (type=="altitude"){
+    const graph={
+        svg: svg,
+        gParcelles: gParcelles,
+        projection: projection,
+        type: "altitude",
+        sliderId: "slider-alt", // ID du slider HTML correspondant
+        filterFunc: (parcelle, sliderValues) => {
+        const [min, max] = sliderValues;
+        return parcelle.altitude_moyenne >= min && parcelle.altitude_moyenne <= max;
+    }}
+    allDepartmentGraphs.push(graph)
+    }else{
+        const graph={
+        svg: svg,
+        gParcelles: gParcelles,
+        projection: projection,
+        type: "pente",
+        sliderId: "slider-pente", // ID du slider HTML correspondant
+        filterFunc: (parcelle, sliderValues) => {
+        const [min, max] = sliderValues;
+        return parcelle.pente_moyenne >= min && parcelle.pente_moyenne <= max;
+        }}
+    allDepartmentGraphs.push(graph)
+    }
+    
 
       const cultureColors = {
   "AAR": "#8d3b72","ACP": "#8d3b72","AFG": "#8d3b72","AGR": "#f4a261","AIL": "#f4a261",
@@ -173,111 +352,7 @@ function createDepartmentGraph(
   "VRC": "#8d3b72","VRG": "#2a9d8f"
 };
 
-    function updateParcelles() {
 
-        if (!currentDept) return;
-
-        const deptCode = currentDept.properties.code;
-        const parcellesDept = parcellesGeo[deptCode] || [];
-
-
-        const [borneMin, borneMax] = sliderDiv.noUiSlider.get().map(Number);
-
-        const parcellesFiltered = parcellesDept.filter(p => {
-            const val = type === "altitude"
-                ? p["altitude_moyenne"]
-                : p["pente_moyenne"];
-            return val >= borneMin && val <= borneMax;
-        });
-        const r = d3.scaleLog()
-        .domain(d3.extent(parcellesFiltered, d => Math.max(+d.surface_totale || 0, 1)))
-        .range([1, 3]);
-        const colorScale = d3.scaleOrdinal()
-            .domain(Object.keys(cultureColors))
-            .range(Object.values(cultureColors));
-        gParcelles.append("rect")
-        .attr("class","graph-background")
-        .attr("x",0)
-        .attr("y",0)
-        .attr("width",width)
-        .attr("height",height)
-        .attr("fill","transparent")
-
-        const points = gParcelles.selectAll(".parcelle-point")
-    .data(parcellesFiltered, d => d.id || d.geometry.coordinates)
-    .join(
-        enter => enter.append("circle")
-            .on("click", (event, d) => {
-                event.stopPropagation();
-                selectedParcelle = d.id;
-                updateSelection();
-                reinitialise();
-                highlight(d.id);
-            })
-            .attr("class", "parcelle-point")
-            .attr("r", d => r(d.surface_totale))
-            .attr("fill", d => colorScale(d.CODE_CULTU))
-            .attr("id", d => `parcelle-${d.id}-${type}`)
-            .attr("stroke", "#222")
-            .attr("stroke-width", 0.3)
-            .attr("opacity", 0.9)
-            .attr("cx", d => projection([
-                d.geometry.coordinates[0][0][0],
-                d.geometry.coordinates[0][0][1]
-            ])[0])
-            .attr("cy", d => projection([
-                d.geometry.coordinates[0][0][0],
-                d.geometry.coordinates[0][0][1]
-            ])[1])
-            .on("mouseover", (event, d) => {
-                const code = d.CODE_CULTU;
-                const label = cultureLabels[code] || "Inconnu";
-
-                tooltip.style("opacity", 1)
-                    .html(`<strong>${code}</strong><br>${label}`);
-            })
-            .on("mousemove", (event) => {
-                tooltip
-                    .style("left", (event.pageX + 12) + "px")
-                    .style("top", (event.pageY + 12) + "px");
-            })
-            .on("mouseout", () => {
-                tooltip.style("opacity", 0);
-            })
-    );
-
-       
-        
-
-
-const lasso = d3.lasso()
-  .items(points)
-  .area(gParcelles)
-  .on("start", () => {
-    reinitialise();
-    points.classed("lasso-selected", false)
-          .classed("lasso-not-selected", false);
-
-  })
-  .on("end", () => {
-    reinitialise();
-    const selected = points.filter(function () {
-      return d3.select(this).classed("lasso-selected");
-    });
-
-    points.classed("lasso-not-selected", true);
-    selected.classed("lasso-not-selected", false);
-
-    selected.each(function (d) {
-      highlight(d.id);
-    });
-
-  });
-
-gParcelles.call(lasso);
-
-        createCultureLegend(svg, width);
-    }
 
 function drawScatterPlot(parcelles) {
 
@@ -337,7 +412,7 @@ function drawScatterPlot(parcelles) {
         .on("click", (event, d) => {
     event.stopPropagation();
     selectedParcelle = d.id;
-    console.log(selectedParcelle)
+    
     updateSelection();      // ton ancien code
     reinitialise();
     highlight(d.id);        // ajout
@@ -422,7 +497,7 @@ svgGraph.call(lasso2);
     const surfaces = parcelles
     .map(d => Math.max(+d.surface_totale || 0, 0.1))
     .sort((a, b) => a - b);
-    console.log(surfaces)
+    
     const minSurface = d3.min(surfaces);
     const maxSurface = d3.max(surfaces);
 
@@ -468,15 +543,16 @@ svgGraph.call(lasso2);
 
 function clicked(event, d) {
     event.stopPropagation();
-    console.log(d)
+    
     // Si on clique sur le même département → dézoom + reset
     if (currentDept && currentDept.properties.code === d.properties.code) {
 
         currentDept = null;
+        Dept=null
         d3.select("#graph-container").selectAll("*").remove();
         // Supprimer les parcelles
-        gParcelles.selectAll(".parcelle-point").remove();
-
+        d3.selectAll(".parcelle-point").remove();
+        d3.selectAll(".graph-background").remove();
         // Supprimer la légende
         svg.selectAll(".legend-culture").remove();
 
@@ -496,7 +572,8 @@ function clicked(event, d) {
 
     // Sinon comportement normal : zoom sur le département
     currentDept = d;
-    updateParcelles();
+    Dept=d
+    updateParcelles(currentDept,parcellesGeo);
     // Récupérer les parcelles filtrées du département
     const parcellesDept = parcellesGeo[d.properties.code] || [];
     // Tracer le graphe
@@ -587,7 +664,6 @@ function createCultureLegend(svg, width) {
 function removeCultureLegend(svg) {
     svg.selectAll(".legend-culture").remove();
 }
-
 function createColorScale(stats, type="altitude") {
     const values = Object.values(stats);
     const min = d3.min(values);
@@ -606,7 +682,6 @@ function createColorScale(stats, type="altitude") {
 
     return { scale, min, max, colorByDept };
 }
-
 function createLegend(containerId, scale, min, max, mode) {
     const container = d3.select(containerId).node().parentNode;
     d3.select(container).selectAll(".legend").remove();
@@ -634,9 +709,7 @@ function createLegend(containerId, scale, min, max, mode) {
             .text(Math.round(val));
     }
 }
-
 // ---------------------- Fonctions génériques ----------------------
-
 function updateAllDepartments(data, minSlider, maxSlider, type, mode = "surface") {
 
     const result = {};
@@ -660,7 +733,6 @@ function updateAllDepartments(data, minSlider, maxSlider, type, mode = "surface"
 
     return result;
 }
-
 // ---------------------- Couleurs ----------------------
 
 const categorieColors = {
@@ -995,6 +1067,25 @@ document.addEventListener("DOMContentLoaded", () => {
     buildBandeauRPG();
 });
 // ---------------------- Chargement ----------------------
+// Slider altitude
+noUiSlider.create(document.getElementById("slider-alt"), {
+    start: [0, 1800],
+    connect: true,
+    range: { min: 0, max: 1800 },
+    step: 100
+});
+
+// Slider pente
+noUiSlider.create(document.getElementById("slider-pente"), {
+    start: [0, 31],
+    connect: true,
+    range: { min: 0, max: 31 },
+    step: 1
+});
+
+
+
+
 
 Promise.all([
     d3.json("files/departements.geojson"),
@@ -1002,6 +1093,29 @@ Promise.all([
     d3.json("files/pente.json"),
     d3.json("files/dep_culture.json")
 ]).then(([depGeo, altitudeData, penteData, parcellesData]) => {
+
+
+const sliders = ["slider-alt", "slider-pente"];
+
+sliders.forEach(sliderId => {
+    const slider = document.getElementById(sliderId).noUiSlider;
+
+    slider.on("update", () => {
+        // Met à jour les labels si tu en as
+        const [minS, maxS] = slider.get().map(Number);
+        if (sliderId === "slider-alt") {
+            document.getElementById("min-alt").textContent = Math.round(minS);
+            document.getElementById("max-alt").textContent = Math.round(maxS);
+        } else {
+            document.getElementById("min-pente").textContent = Math.round(minS);
+            document.getElementById("max-pente").textContent = Math.round(maxS);
+        }
+        
+        // Appel global pour mettre à jour tous les graphes
+        updateParcelles(Dept, parcellesData);
+    });
+});
+
 
     createDepartmentGraph(
         depGeo,
