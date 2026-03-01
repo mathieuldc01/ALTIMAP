@@ -162,6 +162,7 @@
 }
 
 #graph-container {
+    margin-top: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -197,13 +198,28 @@ align-items:center;
 justify-content:center;
 
 z-index:9999;
-color:white;
+color:black;
 }
 
 .home-content{
 text-align:center;
 max-width:800px;
+background-color: rgba(170, 170, 170, 0.6);
+padding: 10px;
 }
+
+h2 {
+    text-align: center;
+    font-weight: bold;
+}
+
+.slider-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 15px;
+}
+
 
 #enter-site{
 padding:12px 25px;
@@ -265,7 +281,7 @@ font-weight:700;
 
 .highlight{
 
-color:#4CAF50;
+color:#106313;
 font-weight:600;
 
 }
@@ -274,7 +290,7 @@ font-weight:600;
 
 font-size:22px;
 font-weight:700;
-color:#2c7be5;
+color:#0d4690;
 
 }
 
@@ -290,7 +306,9 @@ font-size:21px;
 .accordion-btn{
 
 background:#151515;
-padding:12px 16px;
+margin-left: -12px;
+margin-right : 10px;
+padding: 12px 12px;
 
 border-radius:6px;
 

@@ -40,8 +40,8 @@ Une telle fragmentation rend leur visualisation individuelle difficile à grande
 
 <p>
 Pour faciliter l’exploration des données et améliorer les performances d’affichage, 
-les parcelles ayant <strong>la même culture</strong> ont été 
-<strong>agrégées</strong>. Cette approche permet de conserver les grandes 
+les parcelles voisines ayant <strong>la même culture</strong> ont été 
+<strong>regroupé</strong>. Cette approche permet de conserver les grandes 
 tendances agricoles tout en réduisant la complexité visuelle.
 </p>
 
@@ -87,8 +87,7 @@ sur le territoire français.
 
 <p>• Cliquez sur un département pour visualiser la <strong>localisation des amas de parcelles</strong> qu’il contient.</p>
 
-<p>• Sélectionnez un ensemble de parcelles en maintenant cliqué et en traçant autour d’elles pour explorer leurs <strong>caractéristiques</strong>.</p>
-
+<p>• Sélectionnez un ensemble de parcelles en maintenant le clic gauche enfoncé et en traçant un contour autour des parcelles à sélectionner.</p>
 </div>
 
 
@@ -99,10 +98,11 @@ sur le territoire français.
 <div class="charts-row">
 
     <div class="chart-container">
-        <h2>Altitude</h2>
+        <h2>Surface de parcelle par département en fonction de l'altitude</h2>
         <div class="chart-content">
             <div id="chart-alt" class="chart-graph"></div>
         </div>
+        <div class="slider-title">Altitude (m)</div>
         <div class="slider-container">
             <div class="slider-wrapper">
                 <div id="min-alt" class="slider-bound"></div>
@@ -113,10 +113,11 @@ sur le territoire français.
     </div>
 
     <div class="chart-container">
-        <h2>Pente</h2>
+        <h2>Surface de parcelle par département en fonction de la pente</h2>
         <div class="chart-content">
             <div id="chart-pente-map" class="chart-graph"></div>
         </div>
+        <div class="slider-title">Pente (%)</div>
         <div class="slider-container">
             <div class="slider-wrapper">
                 <div id="min-pente" class="slider-bound"></div>
@@ -130,7 +131,7 @@ sur le territoire français.
 
 <div id="graph-container"></div>
 <div id="info-panel" style="
-    position: fixed;
+    position:  absolute;
     top: 50px;
     right: 20px;
     width: 220px;
@@ -144,6 +145,22 @@ sur le territoire français.
     z-index: 1000;
 ">
 Cliquez sur une catégorie dans la légende pour sélectionner les parcelles à afficher.
+</div>
+<div id="info-panel-2" style="
+    position:  absolute;
+    top: 50px;
+    right: 20px;
+    width: 220px;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: none;
+    font-size: 14px;
+    z-index: 1000;
+">
+Cliquez sur une catégorie pour connaître les cultures concernées. 
 </div>
 </body>
 

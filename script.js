@@ -393,8 +393,8 @@ function drawScatterPlot(parcelles) {
     if (!parcelles || parcelles.length === 0) return;
 
     const margin = { top: 20, right: 150, bottom: 40, left: 300 };
-    const width = 600;
-    const height = 300 - margin.top - margin.bottom;
+    const width = 800;
+    const height = 400 - margin.top - margin.bottom;
 
     const svgGraph = d3.select("#graph-container")
         .append("svg")
@@ -433,9 +433,20 @@ legendCat.append("rect")
     .attr("ry", 5);
 
 // Ajouter le point d'interrogation en haut à droite
+legendCat.append("rect")
+    .attr("x", 192)
+    .attr("y", 12)
+    .attr("width", 25)
+    .attr("height", 25)
+    .attr("rx", 4)
+    .attr("stroke", "black")
+    .attr("stroke-width", 2)
+    .attr("fill", "white")
+    
+
 legendCat.append("text")
-    .attr("x", 150)
-    .attr("y", 15)
+    .attr("x", 200)
+    .attr("y", 30)
     .text("?")
     .attr("font-size", "18px")
     .attr("font-weight", "bold")
@@ -521,6 +532,8 @@ items.append("text")
     .attr("width",width)
     .attr("height",height)
     .attr("fill","transparent")
+    .attr("stroke","black")
+    .attr("stroke-width",2)
     // --- points ---
     const graphepoint = svgGraph.selectAll("circle.point")
         .data(parcelles)
@@ -565,7 +578,7 @@ items.append("text")
         .attr("x", width / 2)
         .attr("y", height + 35)
         .attr("text-anchor", "middle")
-        .text("Altitude moyenne");
+        .text("Altitude moyenne (m)");
 
 
 
@@ -575,7 +588,7 @@ items.append("text")
         .attr("x", -height / 2)
         .attr("y", -40)
         .attr("text-anchor", "middle")
-        .text("Pente moyenne");
+        .text("Pente moyenne (%)");
 
 // --- Lasso pour le graphe ---
 const lasso2 = d3.lasso()
@@ -1125,16 +1138,52 @@ function buildBandeauRPG() {
 
     // Description
     const description = document.createElement("div");
-    description.className = "panel-description";
-    description.innerHTML = `
-        <h2>Description rapide du projet</h2>
-        <p>Ici est la description.</p>
-    `;
-
     mainPanel.appendChild(description);
 
     const mapping = buildCategorieMapping();
 
+    // --- BOUTON ? ---
+    const helpBtn = document.createElement("div");
+    helpBtn.textContent = "?";
+
+    helpBtn.style.position = "absolute";
+    helpBtn.style.left = "422px";
+    helpBtn.style.top = "130px";
+    helpBtn.style.width = "25px";
+    helpBtn.style.height = "25px";
+    helpBtn.style.border = "2px solid black";
+    helpBtn.style.borderRadius = "4px";
+    helpBtn.style.display = "flex";
+    helpBtn.style.alignItems = "center";
+    helpBtn.style.justifyContent = "center";
+    helpBtn.style.fontWeight = "bold";
+    helpBtn.style.cursor = "pointer";
+    helpBtn.style.background = "white";
+
+    mainPanel.appendChild(helpBtn);
+
+    helpBtn.addEventListener("mouseenter", function(event) {
+
+        const panel = document.getElementById("info-panel-2");
+
+        if (!panel) return;
+
+        panel.style.left = event.pageX + 10 + "px";
+        panel.style.top = event.pageY + 10 + "px";
+        panel.style.display = "block";
+
+    });
+
+    helpBtn.addEventListener("mouseleave", function() {
+
+        const panel = document.getElementById("info-panel-2");
+        if (!panel) return;
+
+        panel.style.display = "none";
+
+    });
+
+    // --- CATEGORIES ---
     for (const categorie in mapping) {
 
         if (mapping[categorie].length === 0) continue;
@@ -1157,8 +1206,7 @@ function buildBandeauRPG() {
             codeDiv.className = "code-item";
 
             codeDiv.innerHTML = `
-                <span class="code-badge" 
-                style="background:${cultureColors[code]}"></span>
+                <span class="code-badge" style="background:${cultureColors[code]}"></span>
                 <span class="code-text">
                 ${code} - ${cultureLabels[code] || "Signification inconnue"}
                 </span>
@@ -1181,6 +1229,7 @@ function buildBandeauRPG() {
 
     }
 
+    // --- ACCORDION ---
     mainBtn.addEventListener("click", () => {
 
         mainPanel.style.display =
@@ -1196,17 +1245,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // ---------------------- Chargement ----------------------
 // Slider altitude
 noUiSlider.create(document.getElementById("slider-alt"), {
-    start: [0, 1800],
+    start: [0, 1500],
     connect: true,
-    range: { min: 0, max: 1800 },
+    range: { min: 0, max: 1500 },
     step: 100
 });
 
 // Slider pente
 noUiSlider.create(document.getElementById("slider-pente"), {
-    start: [0, 31],
+    start: [0, 30],
     connect: true,
-    range: { min: 0, max: 31 },
+    range: { min: 0, max: 30 },
     step: 1
 });
 
@@ -1254,7 +1303,7 @@ sliders.forEach(sliderId => {
         "altitude",
         "surface",
         0,
-        1800
+        1500
     );
 
     createDepartmentGraph(
@@ -1267,7 +1316,7 @@ sliders.forEach(sliderId => {
         "pente",
         "surface",
         0,
-        31
+        30
     );
 
     document.querySelectorAll(".accordion-btn.info-culture").forEach(btn => {
