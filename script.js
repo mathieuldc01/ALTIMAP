@@ -4,6 +4,31 @@ const allDepartmentGraphs = [];
 const allslider=[];
 let Dept;
 
+const colorFilter={
+    
+    "#f4a261":true,
+    "#2a9d8f": true,
+    "#8d3b72": true,
+    "#e9c46a": true,
+    "#2d6a4f": true,
+    "#6a4c93": true,
+    "#b56576":true,
+    "#52796f": true
+
+}
+
+function updateScatterPlotDisplay() {
+    const svg = d3.select("#graph-container").select("svg");
+    if (svg.empty()) return;
+
+    svg.selectAll("circle.point")
+        .style("display", d => colorFilter[cultureColors[d.CODE_CULTU]]? "block" : "none");
+}
+
+
+
+
+
 const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip-culture")
@@ -110,7 +135,14 @@ if (gParcelles.selectAll(".graph-background").empty()) {
         .attr("r", d => r(d.surface_totale))
         .attr("fill", d => colorScale(d.CODE_CULTU))
         .attr("cx", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[0])
-        .attr("cy", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[1]);
+        .attr("cy", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[1])
+        .style("display", d => {
+        console.log(colorFilter, colorFilter[cultureColors[d.CODE_CULTU]])
+        return colorFilter[cultureColors[d.CODE_CULTU]] ? "block" : "none";
+    });
+
+        
+
 
     // lasso
     const lasso = d3.lasso()
@@ -360,22 +392,83 @@ function drawScatterPlot(parcelles) {
 
     if (!parcelles || parcelles.length === 0) return;
 
-    const margin = { top: 20, right: 150, bottom: 40, left: 50 };
-    const width = 600 - margin.left - margin.right;
+    const margin = { top: 20, right: 150, bottom: 40, left: 300 };
+    const width = 600;
     const height = 300 - margin.top - margin.bottom;
 
     const svgGraph = d3.select("#graph-container")
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
+        .attr("width", width+ margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`)
         .attr("stroke", "none")
         .attr("stroke-width", 0)
+        
     // --- échelle taille ---
     const r = d3.scaleLog()
     .domain(d3.extent(parcelles, d => Math.max(+d.surface_totale || 0, 0.1)))
     .range([2, 12]);
+
+    // --- liste des catégories à gauche ---
+
+const legendCat = svgGraph.append("g")
+    .attr("class", "categorie-legend")
+    .attr("transform", "translate(-300, 0)");
+
+const categories = Object.entries(categorieColors);
+
+
+
+
+
+
+// --- fond ---
+legendCat.append("rect")
+    .attr("width", 160)
+    .attr("height", categories.length * 25 + 10)
+    .attr("fill", "white")
+    .attr("stroke", "#333")
+    .attr("rx", 5)
+    .attr("ry", 5);
+
+
+// --- items ---
+const items = legendCat.selectAll(".legend-item")
+    .data(categories)
+    .join("g")
+    .attr("class", "legend-item")
+    .attr("transform", (d, i) => `translate(10, ${i * 25 + 15})`)
+    .style("cursor", "pointer")
+    .on("click", function(event, [code, color]) {
+        // 🔄 toggle dans ton dictionnaire
+        console.log(code,color)
+        colorFilter[color] = !colorFilter[color];
+         d3.select(this)
+            .style("opacity", colorFilter[color] ? 1 : 0.25);
+        updateParcelles(Dept,parcellesGeo);
+        updateScatterPlotDisplay()
+        console.log(colorFilter)
+
+       
+    });
+
+
+// carré couleur
+items.append("rect")
+    .attr("width", 20)
+    .attr("height", 20)
+    .attr("fill", d => d[1])
+    .attr("stroke", "#222")
+    .attr("stroke-width", 0.5);
+
+// texte
+items.append("text")
+    .attr("x", 30)
+    .attr("y", 15)
+    .attr("alignment-baseline", "middle")
+    .style("font-size", "12px")
+    .text(d => `${d[0]}`);
 
     svgGraph.style("pointer-events","all");
     // --- échelles ---
@@ -398,7 +491,7 @@ function drawScatterPlot(parcelles) {
         .call(d3.axisLeft(y));
 
     svgGraph.append("rect")
-    .attr("class","graph-background")
+    .attr("class","graph-background-graph")
     .attr("x",0)
     .attr("y",0)
     .attr("width",width)
@@ -526,8 +619,8 @@ svgGraph.call(lasso2);
         .append("circle")
         .attr("cy", (d, i) => i * 40)
         .attr("r", d => r(d))
-        .attr("fill", "none")
-        .attr("stroke", "#555");
+        .attr("fill", "black")
+        
 
     legend.selectAll("text")
         .data(sizeLegendValues)
@@ -535,7 +628,7 @@ svgGraph.call(lasso2);
         .append("text")
         .attr("x", 30)
         .attr("y", (d, i) => i * 40 + 5)
-        .text(d => `${Math.round(d)} hectare`)
+        .text(d => `${Math.round(d)} hectares`)
         .style("font-size", "12px")
         .style("fill", "#333");
 }
@@ -554,7 +647,7 @@ function clicked(event, d) {
         d3.selectAll(".parcelle-point").remove();
         d3.selectAll(".graph-background").remove();
         // Supprimer la légende
-        svg.selectAll(".legend-culture").remove();
+        d3.selectAll(".legend-culture").remove();
 
         // Cacher le tooltip
         tooltip.style("opacity", 0);
@@ -632,11 +725,11 @@ function createCultureLegend(svg, width) {
 
     const legendG = svg.append("g")
         .attr("class", "legend-culture")
-        .attr("transform", `translate(${width - 180}, 20)`);
+        .attr("transform", `translate(${width - 80}, 10)`);
 
     legendG.append("rect")
-        .attr("width", 160)
-        .attr("height", Object.keys(categorieColors).length * 25 + 10)
+        .attr("width", 250)
+        .attr("height", Object.keys(categorieColors).length * 25 + 20)
         .attr("fill", "white")
         .attr("stroke", "#333")
         .attr("rx", 5)
@@ -662,7 +755,7 @@ function createCultureLegend(svg, width) {
         .text(d => d[0]);
 }
 function removeCultureLegend(svg) {
-    svg.selectAll(".legend-culture").remove();
+    d3.selectAll(".legend-culture").remove();
 }
 function createColorScale(stats, type="altitude") {
     const values = Object.values(stats);
@@ -734,7 +827,6 @@ function updateAllDepartments(data, minSlider, maxSlider, type, mode = "surface"
     return result;
 }
 // ---------------------- Couleurs ----------------------
-
 const categorieColors = {
     "Grandes cultures": "#f4a261",
     "Prairies et fourrages": "#2a9d8f",
@@ -1035,7 +1127,7 @@ function buildBandeauRPG() {
             const codeDiv = document.createElement("div");
             codeDiv.style.display = "flex";
             codeDiv.style.alignItems = "center";
-            codeDiv.style.gap = "6px";
+            codeDiv.style.gap = "0px";
             
 
             codeDiv.innerHTML = `

@@ -93,12 +93,12 @@
 
 .accordion-btn {
   width: 100%;
-  padding: 0.7rem;
+  padding: 0rem;
   background: #2a9d8f;
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 .accordion-panel {
@@ -157,4 +157,18 @@
 
 .categorie-block li {
     margin-bottom: 6px;
+}
+
+#graph-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+body {
+  margin: 20px;              /* espace entre le body et la fenêtre */
+  padding: 10px;             /* espace interne */
+  border: 3px solid #333;    /* cadre autour du body */
+  border-radius: 12px;       /* angles arrondis (optionnel) */
+  background: #fff;          /* fond du body */
 }
