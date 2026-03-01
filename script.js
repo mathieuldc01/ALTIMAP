@@ -61,10 +61,9 @@ function drawParcelles(graph, parcellesFiltered) {
     const colorScale = d3.scaleOrdinal()
         .domain(Object.keys(cultureColors))
         .range(Object.values(cultureColors));
-    console.log(height,width)
     // ne créer le rectangle que s'il n'existe pas encore
 if (gParcelles.selectAll(".graph-background").empty()) {
-    console.log("ici")
+
     gParcelles.append("rect")
         .attr("class","graph-background")
         .attr("x",0)
@@ -137,7 +136,6 @@ if (gParcelles.selectAll(".graph-background").empty()) {
         .attr("cx", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[0])
         .attr("cy", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[1])
         .style("display", d => {
-        console.log(colorFilter, colorFilter[cultureColors[d.CODE_CULTU]])
         return colorFilter[cultureColors[d.CODE_CULTU]] ? "block" : "none";
     });
 
@@ -283,7 +281,9 @@ function createDepartmentGraph(
         .attr("d", path)
         .attr("stroke", "#333")
         .attr("fill", d => colorByDept[d.properties.code])
-        .on("click", clicked);
+        .on("click", clicked)
+        .append("title")
+    .text(d => d.properties.nom);
 
     createLegend(containerId, scale, min, max, mode);
 
@@ -389,7 +389,7 @@ function createDepartmentGraph(
 function drawScatterPlot(parcelles) {
 
     d3.select("#graph-container").selectAll("*").remove();
-
+    document.getElementById("graph-title").innerText = `Répartition des parcelles dans le ${Dept.properties.code} (${Dept.properties.nom}) `;
     if (!parcelles || parcelles.length === 0) return;
 
     const margin = { top: 20, right: 150, bottom: 40, left: 300 };
@@ -477,13 +477,12 @@ const items = legendCat.selectAll(".legend-item")
     .style("cursor", "pointer")
     .on("click", function(event, [code, color]) {
         // 🔄 toggle dans ton dictionnaire
-        console.log(code,color)
         colorFilter[color] = !colorFilter[color];
          d3.select(this)
             .style("opacity", colorFilter[color] ? 1 : 0.25);
         updateParcelles(Dept,parcellesGeo);
         updateScatterPlotDisplay()
-        console.log(colorFilter)
+        
 
        
     });
@@ -676,6 +675,7 @@ function clicked(event, d) {
     
     // Si on clique sur le même département → dézoom + reset
     if (currentDept && currentDept.properties.code === d.properties.code) {
+        document.getElementById("graph-title").innerText = `Cliquez sur un Département ! `;
 
         currentDept = null;
         Dept=null
