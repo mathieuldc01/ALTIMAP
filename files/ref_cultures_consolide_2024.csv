@@ -1,0 +1,148 @@
+code_culture;libelle_culture;categorie_surf_agricole;categorie_ecoregime;num_chapitre;nom_chapitre
+AAR;Plantes aromatiques herbacées non pérennes (< 5 ans) autres que persil;TA;TA – Autres cultures;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+ACP;Autre culture pérenne et jachère dans les bananeraies;CP;CP;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+AFG;Autre plante fourragère annuelle (ni légumineuse, ni graminée, ni céréale, ni oléagineux);TA;TA – Autres cultures;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+AGR;Agrume;CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+AIL;Ail;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+AME;Plantes médicinales et à parfum non pérennes (< 5 ans);TA;TA – Autres cultures;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+ANA;Ananas;TA;sans objet;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+ARA;Arachide;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+ARP;Plante aromatique pérenne non arbustive ou arborée autre que la vanille;CP;CP gérée comme une TA – Autres cultures;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+ART;Artichaut;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+AVH;Avoine d'hiver;TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+AVP;Avoine de printemps;TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+BCA;Banane (hors export);CP;sans objet;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+BDH;Blé dur d'hiver;TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+BDP;Blé dur de printemps;TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+BEF;Banane (export);CP;sans objet;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+BFS;Bordure le long des forêts sans production;Selon la catégorie de la parcelle associée;Selon la catégorie de la parcelle associée;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+BOR;Bordure de champ;Selon la catégorie de la parcelle associée;Selon la catégorie de la parcelle associée;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+BTA;Bande tampon;Selon la catégorie de la parcelle associée;Selon la catégorie de la parcelle associée;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+BTH;Blé tendre d'hiver;TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+BTN;Betterave;TA;TA – Plantes sarclées;1.7;CULTURES INDUSTRIELLES ET PLANTES SARCLÉES
+BTP;Blé tendre de printemps;TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+CAC;Café et cacao;CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+CAE;Châtaigneraie entretenue par des porcins ou des petits ruminants. Attention : code mobilisable uniquement en corse et petite région des causses cévenols et méridionaux;PP;PP;1.6;PRAIRIES OU PÂTURAGES PERMANENTS
+CAG;Autre céréale ou pseudo-céréale secondaire de printemps (alpiste, quinoa, chia, …);TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+CAH;Autre céréale ou pseudo-céréale secondaire d'hiver;TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+CAR;Carotte;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+CBT;Cerise;CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+CCN;Concombre, cornichon et courgette;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+CEE;Chênaie entretenue par des porcins ou des petits ruminants. Attention : code mobilisable uniquement en corse et petite région des causses cévenols et méridionaux;PP;PP;1.6;PRAIRIES OU PÂTURAGES PERMANENTS
+CEL;Céleri;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+CHU;Chou;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+CHV;Chanvre;TA;TA – Autres cultures;1.7;CULTURES INDUSTRIELLES ET PLANTES SARCLÉES
+CID;Cultures conduites en inter-rangs (bandes de cultures différentes) - 2 cultures représentant chacune plus de 25 %;TA/CP;Selon les cultures présentes;1.4;CULTURES ASSOCIÉES : MÉLANGE MULTI-ESPECES SANS GRAMINÉES PRAITIALES, CULTURES INTER-RANGS ET AUTRES PRODUCTIONS ASSOCIÉES
+CIT;Cultures conduites en inter-rangs (bandes de cultures différentes) - 3 cultures représentant chacune plus de 25 %;TA/CP;Selon les cultures présentes;1.4;CULTURES ASSOCIÉES : MÉLANGE MULTI-ESPECES SANS GRAMINÉES PRAITIALES, CULTURES INTER-RANGS ET AUTRES PRODUCTIONS ASSOCIÉES
+CML;Cameline;TA;TA – Oléagineux de printemps;1.2;OLÉAGINEUX
+CPL;Mélange multi-espèces (céréales, oléagineux, légumineuses, …) sans graminées prairiales et sans prédominance de légumineuses;TA;TA – Autres cultures;1.4;CULTURES ASSOCIÉES : MÉLANGE MULTI-ESPECES SANS GRAMINÉES PRAITIALES, CULTURES INTER-RANGS ET AUTRES PRODUCTIONS ASSOCIÉES
+CSA;Canne à sucre;CP;sans objet;1.7;CULTURES INDUSTRIELLES ET PLANTES SARCLÉES
+CSS;Cultures sous serre hors sol;NA;sans objet;1.12;DIVERS – SURFACES NON ADMISSIBLES AUX AIDES 1er PILIER
+CTG;Châtaigne;CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+CZH;Colza d'hiver;TA;TA – Oléagineux d’hiver;1.2;OLÉAGINEUX
+CZP;Colza de printemps;TA;TA – Oléagineux de printemps;1.2;OLÉAGINEUX
+EPE;Épeautre (petit épeautre ou engrain et grand épeautre);TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+EPI;Epinard, oseille et bette;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+FEV;Fève;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+FLA;Autre légume ou fruit annuel;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+FLP;Autre légume ou fruit pérenne (hors petits fruits à baie);CP;CP gérée comme une TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+FNU;Fenugrec;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+FRA;Fraise (en pleine terre);TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+FVL;Féverole d'hiver;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+FVP;Féverole de printemps;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+GES;Cornille, dolique (y/c lablab), gesse;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+GRA;Graminée pure exclusivement pour gazon ou pour production de semences certifiées;TA;TA – Prairies temporaires et jachères;1.5;SURFACES HERBACÉES TEMPORAIRES ET MÉLANGES AVEC GRAMINÉES
+HBL;Houblon;CP;CP gérée comme une TA – Autres cultures;1.7;CULTURES INDUSTRIELLES ET PLANTES SARCLÉES
+HPC;Horticulture ornementale;TA;TA – Autres cultures;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+JAC;Jachère (terre arable);TA;TA – Prairies temporaires et jachères;1.5;SURFACES HERBACÉES TEMPORAIRES ET MÉLANGES AVEC GRAMINÉES
+JNO;Jachère sanitaire imposée par l'administration;TA;Non prise en compte;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+LAV;Lavande et lavandin;CP;CP gérée comme une TA – Autres cultures;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+LBF;Laitue, endive et autres salades;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+LDH;Lupin doux d'hiver;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+LDP;Lupin doux de printemps;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+LEC;Lentille;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+LIF;Lin fibres;TA;TA – Autres cultures;1.7;CULTURES INDUSTRIELLES ET PLANTES SARCLÉES
+LIH;Lin non textile d'hiver;TA;TA – Autres cultures;1.2;OLÉAGINEUX
+LIP;Lin non textile de printemps;TA;TA – Autres cultures;1.2;OLÉAGINEUX
+LOT;Lotier, minette;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+LUZ;Luzerne;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+MCR;Mélange de céréales ou pseudo-céréales d'hiver entre elles;TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+MCS;Mélange de céréales ou pseudo-céréales de printemps entre elles;TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+MDI;Maraîchage diversifié (plusieurs espèces de fruits et légumes majoritairement non pérennes);TA;TA – Autres cultures;1.4;CULTURES ASSOCIÉES : MÉLANGE MULTI-ESPECES SANS GRAMINÉES PRAITIALES, CULTURES INTER-RANGS ET AUTRES PRODUCTIONS ASSOCIÉES
+MID;Maïs doux;TA;TA – Autres cultures;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+MIS;Maïs (hors maïs doux);TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+MLC;Mélange multi-espèces avec légumineuses fourragères prépondérantes sans graminées prairiales;TA;TA – Protéagineux et légumineuses fourragères;1.4;CULTURES ASSOCIÉES : MÉLANGE MULTI-ESPECES SANS GRAMINÉES PRAITIALES, CULTURES INTER-RANGS ET AUTRES PRODUCTIONS ASSOCIÉES
+MLF;Mélange de légumineuses à graines ou fourragères pures;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+MLG;Mélange de légumineuses prépondérantes et de graminées fourragères de 5 ans ou moins;TA;TA – Protéagineux et légumineuses fourragères;1.5;SURFACES HERBACÉES TEMPORAIRES ET MÉLANGES AVEC GRAMINÉES
+MLO;Melon et pastèque;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+MLT;Millet;TA;TA – Autres cultures;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+MOH;Moha;TA;TA – Autres cultures;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+MOT;Moutarde d'hiver;TA;TA – Oléagineux d’hiver;1.2;OLÉAGINEUX
+MPC;Mélange multi-espèces avec légumineuses à graines prépondérantes sans graminées prairiales;TA;TA – Protéagineux et légumineuses fourragères;1.4;CULTURES ASSOCIÉES : MÉLANGE MULTI-ESPECES SANS GRAMINÉES PRAITIALES, CULTURES INTER-RANGS ET AUTRES PRODUCTIONS ASSOCIÉES
+MRS;Marais salants;NA;sans objet;1.12;DIVERS – SURFACES NON ADMISSIBLES AUX AIDES 1er PILIER
+MSW;Culture pérenne à forte biomasse (miscanthus, switchgrass, silphie, canne fourragère, …);CP;CP gérée comme une TA – Autres cultures;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+NOS;Noisette;CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+NOX;Noix (y compris noix de coco);CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+NVT;Navet, rutabaga et autres légumes racines (hors carotte, radis, betterave);TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+OAG;Autres oléagineux ou mélange d'oléagineux de printemps et d'été (dont moutarde ou navette d'été, sésame et nyger);TA;TA – Oléagineux de printemps;1.2;OLÉAGINEUX
+OEI;Oeillette (pavot);TA;TA – Autres cultures;1.2;OLÉAGINEUX
+OHR;Autres oléagineux ou mélange d'oléagineux d'hiver (dont navette d'hiver);TA;TA – Oléagineux d’hiver;1.2;OLÉAGINEUX
+OIG;Oignon et échalote;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+OLI;Oliveraie;CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+ORH;Orge d'hiver;TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+ORP;Orge de printemps;TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+PAG;Autre légumineuse à graines ou fourragères;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+PCH;Pois chiche;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+PEP;Pépinière (plants laissés en terre plus d'un an);CP;CP;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+PEV;Pépinière (plants laissés en terre moins d'un an);CP;CP gérée comme une TA – Autres cultures;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+PFR;Petit fruit à baie (hors fraise);CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+PHF;Pois et haricot frais (alimentation humaine);TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+PHI;Pois protéagineux d'hiver (alimentation animale);TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+PHS;Pois et haricot secs (alimentation humaine);TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+PME;Plantes médicinales pérennes (autres que arbres);CP;CP gérée comme une TA – Autres cultures;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+POR;Poireau;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+POT;Potiron, citrouille et autres courges;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+PPH;Prairie de 6 ans et plus (couvert herbacé);PP;PP;1.6;PRAIRIES OU PÂTURAGES PERMANENTS
+PPP;Plantes médicinales pérennes (arbres ou arbustes) sauf cassis;CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+PPR;Pois protéagineux de printemps (alimentation animale);TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+PRF;Plantes à parfum pérennes autres que lavande et lavandin;CP;CP gérée comme une TA – Autres cultures;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+PRU;Prune (y compris mirabelle, quetsche, reine-claude, …);CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+PSL;Persil;TA;TA – Autres cultures;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+PTC;Pomme de terre;TA;TA – Plantes sarclées;1.7;CULTURES INDUSTRIELLES ET PLANTES SARCLÉES
+PTR;Prairie temporaire de 5 ans ou moins et autre mélange avec graminées;TA;TA – Prairies temporaires et jachères;1.5;SURFACES HERBACÉES TEMPORAIRES ET MÉLANGES AVEC GRAMINÉES
+PVP;Poivron, piment et aubergine;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+PVT;Pêche (y/c nectarine, brugnon);CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+PWT;Poire;CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+RDI;Radis;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+RIZ;Riz;TA;TA – Autres cultures;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+SAG;Roselière (récolte de sagnes);NA;sans objet;1.12;DIVERS – SURFACES NON ADMISSIBLES AUX AIDES 1er PILIER
+SAI;Sainfoin;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+SBO;Boisement aidé d'une surface agricole;SB;sans objet;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+SGH;Seigle d'hiver;TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+SGP;Seigle de printemps;TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+SHD;Surfaces hautement diversifiées (dom);CP;sans objet;1.4;CULTURES ASSOCIÉES : MÉLANGE MULTI-ESPECES SANS GRAMINÉES PRAITIALES, CULTURES INTER-RANGS ET AUTRES PRODUCTIONS ASSOCIÉES
+SIN;Surface pastorale ou parcours non utilisé l'année en cours;NA;sans objet;1.12;DIVERS – SURFACES NON ADMISSIBLES AUX AIDES 1er PILIER
+SNE;Surface agricole temporairement non admissible, autre que surface pâturable;NA;sans objet;1.12;DIVERS – SURFACES NON ADMISSIBLES AUX AIDES 1er PILIER
+SNU;Parc d'élevage de monogastriques avec couvert dégradé, voire sol nu;NA;sans objet;1.12;DIVERS – SURFACES NON ADMISSIBLES AUX AIDES 1er PILIER
+SOG;Sorgho;TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+SOJ;Soja;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+SPH;Prairie avec herbe prédominante et ressources fourragères ligneuses présentes;PP;PP;1.6;PRAIRIES OU PÂTURAGES PERMANENTS
+SPL;Surface pastorale - ressources fourragères ligneuses prédominantes. Attention : ces surfaces sont admissibles aux aides du 1er pilier de la PAC uniquement dans les départements 01, 04, 05, 06, 07, 09, 11, 12, 13, 15, 19, 2a, 2b, 23, 24, 26, 30, 31, 32, 34, 38, 42, 43, 46, 47, 48, 63, 64, 65, 66, 69, 73, 74, 81, 82, 83, 84 et 87;PP;PP;1.6;PRAIRIES OU PÂTURAGES PERMANENTS
+SRS;Sarrasin;TA;TA – Autres cultures;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+TAB;Tabac;TA;TA – Autres cultures;1.7;CULTURES INDUSTRIELLES ET PLANTES SARCLÉES
+TBT;Tubercule tropical;TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+TCR;Taillis à courte rotation;CP;CP;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+TOM;Tomate (en pleine terre);TA;TA – Autres cultures;1.8;LÉGUMES ET FRUITS (SAUF LÉGUMINEUSES) – ALIMENTATION HUMAINE OU ANIMALE
+TRE;Trèfle;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+TRN;Tournesol;TA;TA – Oléagineux de printemps;1.2;OLÉAGINEUX
+TRU;Truffières (chênaie de plants mycorhizés);CP;CP;1.11;AUTRES SURFACES ADMISSIBLES SPÉCIFIQUES
+TTH;Triticale d'hiver;TA;TA – Céréales d’hiver;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+TTP;Triticale de printemps;TA;TA – Céréales de printemps;1.1;CÉRÉALES ET PSEUDO-CÉRÉALES
+VES;Vesce, mélilot, jarosse, serradelle;TA;TA – Protéagineux et légumineuses fourragères;1.3;LÉGUMINEUSES A GRAINES ET FOURRAGÈRES, Y COMPRIS MÉLANGES DE LÉGUMINEUSES PURES ET LÉGUMINEUSES CONSOMMÉES EN FRAIS DANS L’ALIMENTATION HUMAINE
+VNL;Vanille;CP;sans objet;1.10;PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES ET PLANTES ORNEMENTALES (HORS ESPÈCES ARBUSTISVES ET ARBORÉES)
+VRC;Vigne (sauf vigne rouge);CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+VRG;Autre verger (y compris verger DOM);CP;CP;1.9;ARBORICULTURE FRUITIÈRE ET VITICULTURE, PLANTES À PARFUM, AROMATIQUES ET MÉDICINALES (PPAM) ARBUSTIVES ET ARBORÉES
+ZZZ;Culture inconnue;NA;NA;NA;NA
+CNE;Chênaie non entretenue par des porcins ou des petits ruminants;NA;NA;NA;NA
+CSE;Chanvre sans étiquette conforme;NA;NA;NA;NA
+CNA;Châtaigneraie non entretenue par des porcins ou des petits ruminants;NA;NA;NA;NA
