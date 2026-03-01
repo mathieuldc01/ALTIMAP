@@ -2,22 +2,98 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Cartes interactives des départements</title>
+<title>ALTIMAP</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="d3-lasso.js"></script>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<h1>Cartes interactives des départements</h1>
+<!-- PAGE D'ACCUEIL -->
 
-<div class="accordion-btn">Légende des cultures</div>
+<div id="home-overlay">
+    <div class="home-content">
+        <h1>ALTIMAP</h1>
+        <div class="project-description">
+
+<p>
+<strong class="project-name">Altimap</strong> est une application de 
+<strong>visualisation interactive</strong> permettant d’explorer la répartition 
+des <strong>parcelles agricoles en France</strong> en fonction de deux 
+caractéristiques du relief : 
+<span class="highlight">l’altitude</span> et <span class="highlight">la pente</span>.
+</p>
+
+<p>
+L’agriculture française représente une surface immense et très morcelée. 
+On recense près de <span class="number">10 millions</span> de parcelles agricoles 
+sur le territoire. Ces parcelles couvrent <span class="number">près de 30 millions d’hectares</span>, 
+avec une surface moyenne de <span class="number">moins de 3 hectares</span>. 
+Une telle fragmentation rend leur visualisation individuelle difficile à grande échelle.
+</p>
+
+<p>
+Pour faciliter l’exploration des données et améliorer les performances d’affichage, 
+les parcelles ayant <strong>la même culture</strong> ont été 
+<strong>agrégées</strong>. Cette approche permet de conserver les grandes 
+tendances agricoles tout en réduisant la complexité visuelle.
+</p>
+
+<p>
+Les données utilisées proviennent du 
+<strong>Registre Parcellaire Graphique (RPG) 2023</strong>. 
+Cette base contient plus de <span class="number">300 codes cultures</span>. 
+Afin de rendre la visualisation plus lisible, ces cultures ont été 
+<span class="highlight">regroupées en 8 grandes catégories</span>.
+</p>
+
+<p class="conclusion">
+Altimap permet ainsi d’explorer de manière interactive les liens entre 
+<strong>relief</strong> et <strong>pratiques agricoles</strong>, et d’observer 
+comment l’altitude et la pente influencent la répartition des cultures 
+sur le territoire français.
+</p>
+
+</div>
+
+        <button id="enter-site">Accéder au site</button>
+    </div>
+</div>
+
+
+<h1 class="title">ALTIMAP</h1>
+
+<!-- BOUTONS HAUT -->
+
+<div class="top-buttons">
+
+    <div id="home-btn" class="accordion-btn">Accueil</div>
+
+    <div id="features-btn" class="accordion-btn">Fonctionnalités</div>
+
+</div>
+
+
+<!-- PANNEAU FONCTIONNALITÉS -->
+
+<div id="features-panel" class="accordion-panel">
+<p>• Ajustez les sliders pour filtrer les parcelles agricoles selon leur <strong>altitude</strong> et leur <strong>pente</strong>.</p>
+
+<p>• Cliquez sur un département pour visualiser la <strong>localisation des amas de parcelles</strong> qu’il contient.</p>
+
+<p>• Sélectionnez un ensemble de parcelles en maintenant cliqué et en traçant autour d’elles pour explorer leurs <strong>caractéristiques</strong>.</p>
+
+</div>
+
+
+
+<div class="accordion-btn info-culture">Information Code Culture</div>
 <div class="accordion-panel"></div>
 
 <div class="charts-row">
@@ -51,12 +127,26 @@
     </div>
 
 </div>
+
 <div id="graph-container"></div>
-
-
-
-
-
+<div id="info-panel" style="
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    width: 220px;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: none;
+    font-size: 14px;
+    z-index: 1000;
+">
+Cliquez sur une catégorie dans la légende pour sélectionner les parcelles à afficher.
+</div>
 </body>
+
 <script src="script.js"></script>
+
 </html>

@@ -432,7 +432,31 @@ legendCat.append("rect")
     .attr("rx", 5)
     .attr("ry", 5);
 
+// Ajouter le point d'interrogation en haut à droite
+legendCat.append("text")
+    .attr("x", 150)
+    .attr("y", 15)
+    .text("?")
+    .attr("font-size", "18px")
+    .attr("font-weight", "bold")
+    .attr("fill", "#333")
+    .style("cursor", "pointer")
+    .on("mouseenter", function(event) {
+        const panel = document.getElementById("info-panel");
 
+        // Positionner le panneau à côté du curseur
+        panel.style.left = event.pageX + 10 + "px";
+        panel.style.top = event.pageY + 10 + "px";
+
+        // Afficher le panneau
+        panel.style.display = "block";
+    })
+    .on("mouseleave", function() {
+        const panel = document.getElementById("info-panel");
+
+        // Masquer le panneau
+        panel.style.display = "none";
+    });
 // --- items ---
 const items = legendCat.selectAll(".legend-item")
     .data(categories)
@@ -1087,70 +1111,81 @@ function buildCategorieMapping() {
 
 // ---------------------- Bandeau RPG ----------------------
 
+// ---------------------- Bandeau RPG ----------------------
+
 function buildBandeauRPG() {
-    const mainBtn = document.querySelector(".accordion-btn");
-    const mainPanel = document.querySelector(".accordion-panel");
+
+    const mainBtn = document.querySelector(".accordion-btn.info-culture");
+    const mainPanel = mainBtn?.nextElementSibling;
+
     if (!mainBtn || !mainPanel) return;
 
-    // Vider le panel pour repartir à neuf
     mainPanel.innerHTML = "";
-    mainPanel.style.display = "none"; // masqué par défaut
-    const description = document.createElement("h2");
-    description.className = "description";
-    description.innerHTML=`Description rapide du projet"
-    <p>ici est la description<\p>`
+    mainPanel.style.display = "none";
+
+    // Description
+    const description = document.createElement("div");
+    description.className = "panel-description";
+    description.innerHTML = `
+        <h2>Description rapide du projet</h2>
+        <p>Ici est la description.</p>
+    `;
 
     mainPanel.appendChild(description);
-    const mapping = buildCategorieMapping(cultureColors);
+
+    const mapping = buildCategorieMapping();
 
     for (const categorie in mapping) {
+
         if (mapping[categorie].length === 0) continue;
 
         const block = document.createElement("div");
         block.className = "categorie-block";
 
-        // Titre de la catégorie
         const title = document.createElement("div");
         title.className = "category-title";
         title.style.color = categorieColors[categorie];
         title.textContent = categorie;
 
-        // Conteneur des codes culture (multi-colonnes), masqué par défaut
         const codesContainer = document.createElement("div");
         codesContainer.className = "codes-container";
         codesContainer.style.display = "none";
-        codesContainer.style.gridTemplateColumns = "repeat(auto-fit, minmax(120px, 1fr))";
-        codesContainer.style.gap = "6px";
-        codesContainer.style.marginTop = "6px";
 
         mapping[categorie].sort().forEach(code => {
+
             const codeDiv = document.createElement("div");
-            codeDiv.style.display = "flex";
-            codeDiv.style.alignItems = "center";
-            codeDiv.style.gap = "0px";
-            
+            codeDiv.className = "code-item";
 
             codeDiv.innerHTML = `
                 <span class="code-badge" 
-                      style="background:${cultureColors[code]}; width:20px; height:20px; display:inline-block; border-radius:3px;"></span>
-                <span>${code} - ${cultureLabels[code] || "Signification inconnue"}</span>
+                style="background:${cultureColors[code]}"></span>
+                <span class="code-text">
+                ${code} - ${cultureLabels[code] || "Signification inconnue"}
+                </span>
             `;
+
             codesContainer.appendChild(codeDiv);
+
         });
 
         block.appendChild(title);
         block.appendChild(codesContainer);
         mainPanel.appendChild(block);
 
-        // Toggle codes au clic sur la catégorie
         title.addEventListener("click", () => {
-            codesContainer.style.display = codesContainer.style.display === "none" ? "grid" : "none";
+
+            codesContainer.style.display =
+            codesContainer.style.display === "none" ? "grid" : "none";
+
         });
+
     }
 
-    // Toggle principal (affiche seulement les catégories)
     mainBtn.addEventListener("click", () => {
-        mainPanel.style.display = mainPanel.style.display === "block" ? "none" : "block";
+
+        mainPanel.style.display =
+        mainPanel.style.display === "block" ? "none" : "block";
+
     });
 }
 
@@ -1235,7 +1270,7 @@ sliders.forEach(sliderId => {
         31
     );
 
-    document.querySelectorAll(".accordion-btn").forEach(btn => {
+    document.querySelectorAll(".accordion-btn.info-culture").forEach(btn => {
     btn.addEventListener("click", () => {
         const panel = btn.nextElementSibling;
         panel.style.display = panel.style.display === "block" ? "none" : "block";
@@ -1244,3 +1279,29 @@ sliders.forEach(sliderId => {
     
     buildBandeauRPG(".accordion-panel");
 });
+
+
+// PAGE ACCUEIL
+
+document.getElementById("enter-site").onclick = function(){
+    document.getElementById("home-overlay").style.display = "none";
+}
+
+document.getElementById("home-btn").onclick = function(){
+    document.getElementById("home-overlay").style.display = "flex";
+}
+
+
+// PANNEAU FONCTIONNALITES
+
+document.getElementById("features-btn").onclick = function(){
+
+    let panel = document.getElementById("features-panel");
+
+    if(panel.style.display === "block"){
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
+
+}
