@@ -732,39 +732,69 @@ function clicked(event, d) {
     window.addEventListener("resize", resizeMap);
 }
 
-function createCultureLegend(svg, width) {
+function createCultureLegend(svg) {
+    // Supprimer l'ancienne légende
     svg.selectAll(".legend-culture").remove();
 
+    // Largeur réelle du SVG
+    const svgWidth = svg.node().getBoundingClientRect().width;
+
+    // Paramètres
+    const rectSize = 20;
+    const padding = 5;
+    const maxTextWidth = 200; // largeur max du texte pour wrap
+    const itemHeight = 30;    // hauteur min par item
+
+    // Créer le groupe légende
     const legendG = svg.append("g")
         .attr("class", "legend-culture")
-        .attr("transform", `translate(${width - 80}, 10)`);
+        .attr("transform", `translate(${svgWidth - 260}, 10)`); // 250 = largeur du fond
 
+    // Fond de la légende
     legendG.append("rect")
         .attr("width", 250)
-        .attr("height", Object.keys(categorieColors).length * 25 + 20)
+        .attr("height", Object.keys(categorieColors).length * itemHeight + 10)
         .attr("fill", "white")
         .attr("stroke", "#333")
         .attr("rx", 5)
         .attr("ry", 5);
 
+    // Créer un groupe par item
     const items = legendG.selectAll(".legend-item")
         .data(Object.entries(categorieColors))
         .join("g")
-        .attr("transform", (d, i) => `translate(10, ${i * 25 + 15})`);
+        .attr("transform", (d, i) => `translate(10, ${i * itemHeight + 10})`);
 
+    // Carré de couleur
     items.append("rect")
-        .attr("width", 20)
-        .attr("height", 20)
+        .attr("width", rectSize)
+        .attr("height", rectSize)
         .attr("fill", d => d[1])
         .attr("stroke", "#222")
         .attr("stroke-width", 0.5);
 
-    items.append("text")
-        .attr("x", 30)
-        .attr("y", 15)
-        .attr("alignment-baseline", "middle")
+    // Texte avec retour à la ligne et centrage vertical
+    items.append("foreignObject")
+        .attr("x", rectSize + 5)
+        .attr("y", 0)
+        .attr("width", maxTextWidth)
+        .attr("height", itemHeight)
+        .append("xhtml:div")
+        .style("width", maxTextWidth + "px")
+        .style("height", itemHeight + "px")
+        .style("display", "flex")
+        .style("align-items", "center")  // centrer verticalement
+        .style("justify-content", "flex-start") // texte aligné à gauche
+        .style("word-wrap", "break-word")
         .style("font-size", "12px")
+        .style("line-height", "1.2em")
         .text(d => d[0]);
+
+    // Mettre à jour la position sur redimensionnement
+    window.addEventListener("resize", () => {
+        const newWidth = svg.node().getBoundingClientRect().width;
+        legendG.attr("transform", `translate(${newWidth - 250}, 10)`);
+    });
 }
 function removeCultureLegend(svg) {
     d3.selectAll(".legend-culture").remove();
