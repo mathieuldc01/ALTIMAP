@@ -1245,17 +1245,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // ---------------------- Chargement ----------------------
 // Slider altitude
 noUiSlider.create(document.getElementById("slider-alt"), {
-    start: [0, 1500],
+    start: [0, 1600],
     connect: true,
-    range: { min: 0, max: 1500 },
+    range: { min: 0, max: 1600 },
     step: 100
 });
 
 // Slider pente
 noUiSlider.create(document.getElementById("slider-pente"), {
-    start: [0, 30],
+    start: [0, 31],
     connect: true,
-    range: { min: 0, max: 30 },
+    range: { min: 0, max: 31 },
     step: 1
 });
 
@@ -1303,7 +1303,7 @@ sliders.forEach(sliderId => {
         "altitude",
         "surface",
         0,
-        1500
+        1600
     );
 
     createDepartmentGraph(
@@ -1316,7 +1316,7 @@ sliders.forEach(sliderId => {
         "pente",
         "surface",
         0,
-        30
+        31
     );
 
     document.querySelectorAll(".accordion-btn.info-culture").forEach(btn => {
