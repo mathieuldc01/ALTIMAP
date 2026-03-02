@@ -225,11 +225,11 @@ function highlight(id) {
 
     // Highlight parcelle
     d3.select(`#parcelle-${id}-pente`)
-        .attr("stroke", "#0066ff")
+        .attr("stroke", "white")
         .attr("stroke-width", 0.4);
 
     d3.select(`#parcelle-${id}-altitude`)
-        .attr("stroke", "#0066ff")
+        .attr("stroke", "white")
         .attr("stroke-width", 0.4);
 
 
@@ -285,9 +285,22 @@ function createDepartmentGraph(
         .attr("stroke", "#333")
         .attr("fill", d => colorByDept[d.properties.code])
         .on("click", clicked)
-        .append("title")
-    .text(d => d.properties.nom);
+        .on("mouseover", (event, d) => {
+            const dep=d.properties.nom;
+            tooltip
+                .style("opacity", 1)
+                .html(`<strong>${dep}</strong><br>`);
+        })
 
+        .on("mousemove", (event) => {
+            tooltip
+                .style("left", (event.pageX + 12) + "px")
+                .style("top", (event.pageY + 12) + "px");
+        })
+
+        .on("mouseout", () => {
+            tooltip.style("opacity", 0);
+        });
     createLegend(containerId, scale, min, max, mode);
 
     const zoom = d3.zoom()
