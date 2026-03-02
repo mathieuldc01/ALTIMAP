@@ -754,7 +754,7 @@ function createCultureLegend(svg) {
     legendG.append("rect")
         .attr("width", 250)
         .attr("height", Object.keys(categorieColors).length * itemHeight + 10)
-        .attr("fill", "yellow")
+        .attr("fill", "white")
         .attr("stroke", "#333")
         .attr("rx", 5)
         .attr("ry", 5);
