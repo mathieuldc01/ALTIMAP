@@ -258,8 +258,14 @@ function drawParcelles(graph, parcellesFiltered) {
                 .on("mouseover", (event, d) => {
                     const code = d.CODE_CULTU;
                     const label = cultureLabels[code] || "Inconnu";
-                    tooltip.style("opacity", 1)
-                        .html(`<strong>${code}</strong><br>${label}`);
+                 tooltip.style("opacity", 1)
+       .html(`
+           <div style="font-size: 13px; line-height: 1.3;">
+               <div><strong>Code :</strong> ${code}</div>
+               <div><strong>Surface :</strong> ${(d.surface_totale ? (d.surface_totale).toFixed(1) : "N/A")} ha</div>
+               <div><strong>Culture :</strong> ${label}</div>
+           </div>
+       `);
                 })
                 .on("mousemove", (event) => {
                     tooltip
