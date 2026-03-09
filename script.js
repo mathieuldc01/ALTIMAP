@@ -3,6 +3,7 @@ const allGraphs = [];
 const allDepartmentGraphs = [];
 const allslider=[];
 let Dept = null;
+let avoid_collide=false
 
 
 
@@ -60,6 +61,134 @@ const tooltip = d3.select("body")
     .style("pointer-events", "none")
     .style("opacity", 0);
 
+// function drawParcelles(graph, parcellesFiltered) {
+//     const gParcelles = graph.gParcelles;
+//     const projection = graph.projection;
+//     const type = graph.type;
+//     const svg = graph.svg;
+//     const width = 600;
+//     const height = 600;
+
+//     if (!parcellesFiltered || parcellesFiltered.length === 0) {
+//         gParcelles.selectAll(".parcelle-point").remove();
+//         return;
+//     }
+
+//     const r = d3.scaleLog()
+//         .domain(d3.extent(parcellesFiltered, d => Math.max(+d.surface_totale || 1)))
+//         .range([1, 10]);
+
+//     const colorScale = d3.scaleOrdinal()
+//         .domain(Object.keys(cultureColors))
+//         .range(Object.values(cultureColors));
+//     // ne créer le rectangle que s'il n'existe pas encore
+// if (gParcelles.selectAll(".graph-background").empty()) {
+
+//     gParcelles.append("rect")
+//         .attr("class","graph-background")
+//         .attr("x",0)
+//         .attr("y",0)
+//         .attr("width",width)
+//         .attr("height",height)
+//         .lower()
+//         .attr("fill","transparent")
+//         .on("click", function(event) {
+
+//             event.stopPropagation();
+
+//             // supprimer **tous les rectangles de fond**
+//             d3.selectAll(".graph-background").remove();
+
+//             // reset département
+//             currentDept = null;
+
+//             // relancer le click sur l'élément en dessous
+//             const elementBelow = document.elementFromPoint(event.clientX, event.clientY);
+
+//             if (elementBelow) {
+//                 elementBelow.dispatchEvent(
+//                     new MouseEvent("click", {
+//                         bubbles: true,
+//                         clientX: event.clientX,
+//                         clientY: event.clientY
+//                     })
+//                 );
+//             }
+//         });
+// }
+    
+//     // mise à jour des cercles
+//     const points = gParcelles.selectAll(".parcelle-point")
+//         .data(parcellesFiltered, d => d.id || d.geometry.coordinates)
+//         .join(
+//             enter => enter.append("circle")
+//                 .attr("class", "parcelle-point")
+//                 .attr("stroke", "#222")
+//                 .attr("stroke-width", 0.3)
+//                 .attr("opacity", 0.9)
+//                 .attr("id", d => `parcelle-${d.id}-${type}`)
+//                 .on("click", (event, d) => {
+//                     event.stopPropagation();
+//                     selectedParcelle = d.id;
+//                     updateSelection();
+//                     reinitialise();
+//                     highlight(d.id);
+//                 })
+//                 .on("mouseover", (event, d) => {
+//                     const code = d.CODE_CULTU;
+//                     const label = cultureLabels[code] || "Inconnu";
+//                     tooltip.style("opacity", 1)
+//                         .html(`<strong>${code}</strong><br>${label}`);
+//                 })
+//                 .on("mousemove", (event) => {
+//                     tooltip
+//                         .style("left", (event.pageX + 12) + "px")
+//                         .style("top", (event.pageY + 12) + "px");
+//                 })
+//                 .on("mouseout", () => {
+//                     tooltip.style("opacity", 0);
+//                 })
+//         );
+
+//     points
+//         .attr("r", d => r(d.surface_totale)/5)
+//         .attr("fill", d => colorScale(d.CODE_CULTU))
+//         .attr("cx", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[0])
+//         .attr("cy", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[1])
+//         .style("display", d => {
+//         return colorFilter[cultureColors[d.CODE_CULTU]] ? "block" : "none";
+//     });
+
+        
+
+
+//     // lasso
+//     const lasso = d3.lasso()
+//         .items(points)
+//         .area(gParcelles)
+//         .on("start", () => {
+//             reinitialise();
+//             points.classed("lasso-selected", false)
+//                   .classed("lasso-not-selected", false);
+//         })
+//         .on("end", () => {
+//             reinitialise();
+//             const selected = points.filter(function () {
+//                 return d3.select(this).classed("lasso-selected");
+//             });
+//             points.classed("lasso-not-selected", true);
+//             selected.classed("lasso-not-selected", false);
+//             selected.each(function(d) {
+//                 highlight(d.id);
+//             });
+//         });
+
+//     gParcelles.call(lasso);
+
+//     // légende des cultures
+//     createCultureLegend(svg, width);
+// }
+
 function drawParcelles(graph, parcellesFiltered) {
     const gParcelles = graph.gParcelles;
     const projection = graph.projection;
@@ -75,47 +204,40 @@ function drawParcelles(graph, parcellesFiltered) {
 
     const r = d3.scaleLog()
         .domain(d3.extent(parcellesFiltered, d => Math.max(+d.surface_totale || 1)))
-        .range([1, 3]);
+        .range([1, 20]);
 
     const colorScale = d3.scaleOrdinal()
         .domain(Object.keys(cultureColors))
         .range(Object.values(cultureColors));
-    // ne créer le rectangle que s'il n'existe pas encore
-if (gParcelles.selectAll(".graph-background").empty()) {
 
-    gParcelles.append("rect")
-        .attr("class","graph-background")
-        .attr("x",0)
-        .attr("y",0)
-        .attr("width",width)
-        .attr("height",height)
-        .lower()
-        .attr("fill","transparent")
-        .on("click", function(event) {
+    // créer le rectangle de fond s'il n'existe pas
+    if (gParcelles.selectAll(".graph-background").empty()) {
+        gParcelles.append("rect")
+            .attr("class","graph-background")
+            .attr("x",0)
+            .attr("y",0)
+            .attr("width",width)
+            .attr("height",height)
+            .lower()
+            .attr("fill","transparent")
+            .on("click", function(event) {
+                event.stopPropagation();
+                d3.selectAll(".graph-background").remove();
+                currentDept = null;
 
-            event.stopPropagation();
+                const elementBelow = document.elementFromPoint(event.clientX, event.clientY);
+                if (elementBelow) {
+                    elementBelow.dispatchEvent(
+                        new MouseEvent("click", {
+                            bubbles: true,
+                            clientX: event.clientX,
+                            clientY: event.clientY
+                        })
+                    );
+                }
+            });
+    }
 
-            // supprimer **tous les rectangles de fond**
-            d3.selectAll(".graph-background").remove();
-
-            // reset département
-            currentDept = null;
-
-            // relancer le click sur l'élément en dessous
-            const elementBelow = document.elementFromPoint(event.clientX, event.clientY);
-
-            if (elementBelow) {
-                elementBelow.dispatchEvent(
-                    new MouseEvent("click", {
-                        bubbles: true,
-                        clientX: event.clientX,
-                        clientY: event.clientY
-                    })
-                );
-            }
-        });
-}
-    
     // mise à jour des cercles
     const points = gParcelles.selectAll(".parcelle-point")
         .data(parcellesFiltered, d => d.id || d.geometry.coordinates)
@@ -149,19 +271,33 @@ if (gParcelles.selectAll(".graph-background").empty()) {
                 })
         );
 
-    points
-        .attr("r", d => r(d.surface_totale))
-        .attr("fill", d => colorScale(d.CODE_CULTU))
-        .attr("cx", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[0])
-        .attr("cy", d => projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]])[1])
-        .style("display", d => {
-        return colorFilter[cultureColors[d.CODE_CULTU]] ? "block" : "none";
+    // ==== Décalage automatique pour éviter chevauchement ====
+    // ajouter x/y initiaux avec la projection
+    
+    points.each(d => {
+        const [x, y] = projection([d.geometry.coordinates[0][0][0], d.geometry.coordinates[0][0][1]]);
+        d.x = x;
+        d.y = y;
     });
+    if (avoid_collide){
+    const simulation = d3.forceSimulation(parcellesFiltered)
+        .force("x", d3.forceX(d => d.x).strength(1))
+        .force("y", d3.forceY(d => d.y).strength(1))
+        .force("collide", d3.forceCollide(d => r(d.surface_totale)/10 +0.5 )) // rayon + padding
+        .stop();
 
-        
-
-
-    // lasso
+    // itérations pour positionner les points
+    for (let i = 0; i < 100; i++) simulation.tick();
+    }
+    // mise à jour des attributs cx/cy
+    points
+        .attr("r", d => r(d.surface_totale)/10)
+        .attr("fill", d => colorScale(d.CODE_CULTU))
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+        .style("display", d => colorFilter[cultureColors[d.CODE_CULTU]] ? "block" : "none");
+    
+    // ==== Lasso ====
     const lasso = d3.lasso()
         .items(points)
         .area(gParcelles)
@@ -184,7 +320,7 @@ if (gParcelles.selectAll(".graph-background").empty()) {
 
     gParcelles.call(lasso);
 
-    // légende des cultures
+    // légende
     createCultureLegend(svg, width);
 }
 
@@ -399,6 +535,39 @@ function drawScatterPlot(parcelles) {
     const margin = { top: 20, right: 150, bottom: 40, left: 300 };
     const width = 800;
     const height = 500 - margin.top - margin.bottom;
+
+
+
+   
+    const container = d3.select("#graph-checkbox");
+    container.selectAll("*").remove();
+
+    const checkboxContainer = container.append("div")
+        .attr("id", "avoid-collide-container")
+        .style("display", "flex")          // active flexbox
+        .style("align-items", "center")    // centre verticalement
+        .style("justify-content", "center")// centre horizontalement
+        .style("margin-bottom", "8px");    // espacement optionnel
+
+    checkboxContainer.append("label")
+        .style("display", "flex")          // label en flex pour texte + input
+        .style("align-items", "center")    // centre verticalement
+        .style("gap", "4px")               // espace entre texte et checkbox
+        .text("Éviter collision des parcelles ")
+        .append("input")
+        .attr("type", "checkbox")
+        .attr("id", "avoidCollideCheckbox")
+        .property("checked", avoid_collide);
+
+    // 3️⃣ Ajouter l’écouteur pour mettre à jour avoid_collide et redraw
+    document.getElementById("avoidCollideCheckbox").addEventListener("change", (event) => {
+        avoid_collide = event.target.checked;
+
+        
+        const parcellesDept = parcellesGeo[Dept.properties.code] || [];
+        updateParcelles(Dept,parcellesGeo);
+        
+    });
 
     const svgGraph = d3.select("#graph-container")
         .append("svg")
@@ -684,6 +853,7 @@ function clicked(event, d) {
         
   
         d3.select("#graph-container").selectAll("*").remove();
+         d3.select("#graph-checkbox").selectAll("*").remove();
         // Supprimer les parcelles
         d3.selectAll(".parcelle-point").remove();
         d3.selectAll(".graph-background").remove();
