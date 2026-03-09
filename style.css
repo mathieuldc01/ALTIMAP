@@ -180,6 +180,22 @@ body {
 
 
 /* PAGE D'ACCUEIL */
+.image-source{
+    position:absolute;
+    bottom:10px;
+    right:15px;
+    font-size:12px;
+    color:white;
+    text-decoration:none;
+    background:rgba(0,0,0,0.4);
+    padding:4px 8px;
+    border-radius:4px;
+}
+
+.image-source:hover{
+    text-decoration:underline;
+}
+
 
 #home-overlay{
 position:absolute;

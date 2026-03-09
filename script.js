@@ -2,7 +2,7 @@ let selectedParcelle = null;
 const allGraphs = [];
 const allDepartmentGraphs = [];
 const allslider=[];
-let Dept;
+let Dept = null;
 
 
 
@@ -19,7 +19,23 @@ const colorFilter = {
     '#4c5157':true
 }
 
+function resetZoom() {
+    // Dézoomer le graphe courant
+    svg.select("g").interrupt(); // interrompre toute transition active
+    svg.transition()
+       .duration(750)
+       .call(zoom.transform, d3.zoomIdentity);
 
+    // Dézoomer tous les autres graphes de façon cohérente
+    allGraphs.forEach(otherSvg => {
+        if (otherSvg.node() !== svg.node()) {
+            otherSvg.select("g").interrupt();
+            otherSvg.transition()
+                    .duration(750)
+                    .call(zoom.transform, d3.zoomIdentity);
+        }
+    });
+}
 function updateScatterPlotDisplay() {
     const svg = d3.select("#graph-container").select("svg");
     if (svg.empty()) return;
@@ -660,13 +676,13 @@ svgGraph.call(lasso2);
 
 function clicked(event, d) {
     event.stopPropagation();
-    
+
     // Si on clique sur le même département → dézoom + reset
-    if (currentDept && currentDept.properties.code === d.properties.code) {
+    if ( Dept && Dept.properties.code === d.properties.code) {
         document.getElementById("graph-title").innerText = `Cliquez sur un Département ! `;
 
-        currentDept = null;
-        Dept=null
+        
+  
         d3.select("#graph-container").selectAll("*").remove();
         // Supprimer les parcelles
         d3.selectAll(".parcelle-point").remove();
@@ -678,13 +694,33 @@ function clicked(event, d) {
         tooltip.style("opacity", 0);
 
         // Dézoomer
+        if (currentDept){
+        
         svg.transition()
             .duration(750)
             .call(
                 zoom.transform,
                 d3.zoomIdentity
             );
+        }else{
+            
+            svg.select("g").interrupt(); // interrompre toute transition active
+            svg.transition()
+            .duration(750)
+            .call(zoom.transform, d3.zoomIdentity);
 
+            // Dézoomer tous les autres graphes de façon cohérente
+            allGraphs.forEach(otherSvg => {
+                if (otherSvg.node() !== svg.node()) {
+                    otherSvg.select("g").interrupt();
+                    otherSvg.transition()
+                            .duration(750)
+                            .call(zoom.transform, d3.zoomIdentity);
+                }
+            });
+            }
+        currentDept = null;
+        Dept=null
         return;
     }
 
@@ -1139,6 +1175,7 @@ sliders.forEach(sliderId => {
 document.getElementById("enter-site").onclick = function(){
     document.getElementById("home-overlay").style.display = "none";
 }
+
 
 document.getElementById("home-btn").onclick = function(){
     document.getElementById("home-overlay").style.display = "flex";
